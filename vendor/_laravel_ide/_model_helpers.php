@@ -8,10 +8,13 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property string $nama
+     * @property mixed $User_id
      * @property int $id
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Campaign> $Campaign
      * @property-read int|null $Campaign_count
+     * @property-read \App\Models\User $User
      * @method static \Illuminate\Database\Eloquent\Builder<Brand>|Brand whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Brand>|Brand whereUserId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Brand>|Brand whereNama($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Brand>|Brand whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Brand>|Brand whereUpdatedAt($value)
@@ -643,8 +646,8 @@ namespace App\Models {
      * @property mixed $User_id
      * @property mixed $Brand_id
      * @property int $id
-     * @property-read \App\Models\Brand $brand
-     * @property-read \App\Models\Campaign $campaign
+     * @property-read \App\Models\Brand $Brand
+     * @property-read \App\Models\Campaign $Campaign
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereBrandId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereUserId($value)
@@ -964,8 +967,10 @@ namespace App\Models {
      * @property string $email
      * @property string $name
      * @property int $id
-     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Campaign> $Campaigns
-     * @property-read int|null $Campaigns_count
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Campaign> $Campaign
+     * @property-read int|null $Campaign_count
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Brand> $Brand
+     * @property-read int|null $Brand_count
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
      * @property-read int|null $notifications_count
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereId($value)

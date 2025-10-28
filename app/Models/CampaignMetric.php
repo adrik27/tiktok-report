@@ -16,12 +16,12 @@ class CampaignMetric extends Model
         'tanggal' => 'date',
     ];
 
-    public function brand()
+    public function Brand()
     {
         return $this->belongsTo(Brand::class, 'Brand_id');
     }
 
-    public function campaign()
+    public function Campaign()
     {
         return $this->belongsTo(Campaign::class);
     }

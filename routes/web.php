@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\YajraBrandController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 // auth login manual
 Route::get('/', [AuthController::class, 'tampil_login'])->name('login.form');
@@ -18,6 +21,13 @@ Route::get('/dashboard', function () {
         'title' => 'Dashboard'
     ]);
 })->name('dashboard');
+
+// brands
+Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
+Route::get('brands/ajax', [YajraBrandController::class, 'tampil_data'])->name('brands.ajax');
+Route::post('/brands', [BrandController::class, 'create'])->name('brands.create');
+Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+Route::delete('/brands/{id}', [BrandController::class, 'hapus'])->name('brands.hapus');
 
 // logout
 Route::post('/logout', function () {
