@@ -1,3 +1,5 @@
+# Socialite
+
 1. install socialite package
     composer require laravel/socialite
 2. configure socialite in config/services.php
@@ -12,3 +14,10 @@
     GOOGLE_CLIENT_ID=186743744428-hg7a6kmpf8eek5lohf78frmu8af5r1i0.apps.googleusercontent.com
     GOOGLE_CLIENT_SECRET=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
     GOOGLE_REDIRECT_URI=${APP_URL}/auth/google/callback
+
+
+# Yajra Data Table
+1. install yajra/laravel-datatables package
+    composer require yajra/laravel-datatables-oracle
+    
+
