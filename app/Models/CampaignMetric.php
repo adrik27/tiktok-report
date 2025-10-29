@@ -10,19 +10,11 @@ class CampaignMetric extends Model
 {
     use HasFactory;
 
-    protected $table = 'campaigns';
+    protected $table = 'campaign_metrics';
     protected $guarded = ['id'];
-    protected $casts = [
-        'tanggal' => 'date',
-    ];
-
-    public function Brand()
-    {
-        return $this->belongsTo(Brand::class, 'Brand_id');
-    }
 
     public function Campaign()
     {
-        return $this->belongsTo(Campaign::class);
+        return $this->belongsTo(Campaign::class, 'Campaign_id', 'id');
     }
 }

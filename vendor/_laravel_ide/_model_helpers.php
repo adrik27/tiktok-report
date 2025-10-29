@@ -642,16 +642,39 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
-     * @property \Illuminate\Support\Carbon $tanggal
-     * @property mixed $User_id
-     * @property mixed $Brand_id
+     * @property mixed $roi
+     * @property mixed $roas
+     * @property mixed $total_spend
+     * @property float|null $conversion_rate
+     * @property mixed $purchase
+     * @property mixed $ic
+     * @property mixed $cost_atc
+     * @property mixed $atc
+     * @property mixed $cpc
+     * @property float|null $ctr
+     * @property mixed $klik
+     * @property mixed $reach
+     * @property mixed $impression
+     * @property mixed $platform
+     * @property mixed $campaign_id
      * @property int $id
-     * @property-read \App\Models\Brand $Brand
      * @property-read \App\Models\Campaign $Campaign
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereBrandId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereTanggal($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCampaignId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric wherePlatform($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereImpression($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereReach($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereKlik($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCtr($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCpc($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereAtc($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCostAtc($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereIc($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric wherePurchase($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereConversionRate($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereTotalSpend($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereRoas($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereRoi($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric newModelQuery()

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\YajraBrandController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,11 @@ Route::get('brands/ajax', [YajraBrandController::class, 'tampil_data'])->name('b
 Route::post('/brands', [BrandController::class, 'create'])->name('brands.create');
 Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
 Route::delete('/brands/{id}', [BrandController::class, 'hapus'])->name('brands.hapus');
+
+// campaign
+Route::get('/campaign', [CampaignController::class, 'index'])->name('campaign.index');
+Route::get('/campaign/create', [CampaignController::class, 'create'])->name('campaign.create');
+Route::post('/campaign/create', [CampaignController::class, 'proses_create'])->name('campaign.proses_create');
 
 // logout
 Route::post('/logout', function () {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('campaign_metrics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campaign_id')->constrained('campaigns')->cascadeOnDelete();
+            $table->foreignId('campaign_id');
             $table->enum('platform', ['tiktok', 'gmvmax']);
 
             $table->integer('impression')->nullable();
