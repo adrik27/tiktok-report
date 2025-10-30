@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\YajraBrandController;
+use App\Http\Controllers\YajraCampaignController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,8 +33,11 @@ Route::delete('/brands/{id}', [BrandController::class, 'hapus'])->name('brands.h
 
 // campaign
 Route::get('/campaign', [CampaignController::class, 'index'])->name('campaign.index');
+Route::get('/campaign/ajax', [YajraCampaignController::class, 'tampil_data'])->name('campaign.ajax');
 Route::get('/campaign/create', [CampaignController::class, 'create'])->name('campaign.create');
 Route::post('/campaign/create', [CampaignController::class, 'proses_create'])->name('campaign.proses_create');
+Route::delete('/campaign/{id}', [CampaignController::class, 'hapus'])->name('campaign.hapus');
+
 
 // logout
 Route::post('/logout', function () {

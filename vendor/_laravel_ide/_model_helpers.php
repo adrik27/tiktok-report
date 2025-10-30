@@ -323,7 +323,7 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
-     * @property \Illuminate\Support\Carbon $tanggal
+     * @property \Illuminate\Support\Carbon|null $tanggal
      * @property mixed $User_id
      * @property mixed $Brand_id
      * @property int $id
@@ -642,7 +642,19 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
-     * @property mixed $roi
+     * @property mixed $roi_gmvmax
+     * @property mixed $roas_gmvmax
+     * @property mixed $total_spend_gmvmax
+     * @property float|null $conversion_rate_gmvmax
+     * @property mixed $purchase_gmvmax
+     * @property mixed $ic_gmvmax
+     * @property mixed $cost_atc_gmvmax
+     * @property mixed $atc_gmvmax
+     * @property mixed $cpc_gmvmax
+     * @property float|null $ctr_gmvmax
+     * @property mixed $klik_gmvmax
+     * @property mixed $reach_gmvmax
+     * @property mixed $impression_gmvmax
      * @property mixed $roas
      * @property mixed $total_spend
      * @property float|null $conversion_rate
@@ -655,13 +667,11 @@ namespace App\Models {
      * @property mixed $klik
      * @property mixed $reach
      * @property mixed $impression
-     * @property mixed $platform
      * @property mixed $campaign_id
      * @property int $id
      * @property-read \App\Models\Campaign $Campaign
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCampaignId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric wherePlatform($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereImpression($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereReach($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereKlik($value)
@@ -674,7 +684,19 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereConversionRate($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereTotalSpend($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereRoas($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereRoi($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereImpressionGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereReachGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereKlikGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCtrGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCpcGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereAtcGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCostAtcGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereIcGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric wherePurchaseGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereConversionRateGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereTotalSpendGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereRoasGmvmax($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereRoiGmvmax($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<CampaignMetric>|CampaignMetric newModelQuery()

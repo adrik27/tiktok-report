@@ -11,7 +11,9 @@ class YajraBrandController
 {
     public function tampil_data()
     {
-        $brands = Brand::where('User_id', Auth::user()->id)->with('User')->select('brands.*');
+        $brands = Brand::where('User_id', Auth::user()->id)->with('User')
+            ->orderBy('created_at', 'desc')
+            ->select('brands.*');
 
         return DataTables::of($brands)
             ->addIndexColumn()

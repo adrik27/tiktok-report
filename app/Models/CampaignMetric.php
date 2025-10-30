@@ -15,6 +15,6 @@ class CampaignMetric extends Model
 
     public function Campaign()
     {
-        return $this->belongsTo(Campaign::class, 'Campaign_id', 'id');
+        return $this->belongsTo(Campaign::class, 'campaign_id', 'id');
     }
 }

@@ -15,7 +15,7 @@ class CampaignController extends Controller
     {
         return view('admin.campaign.index', [
             'title' => 'Campaign',
-            'campaigns' => Campaign::where('User_id', Auth::user()->id)->with('User', 'Brand', 'Metrics')->get()
+            'campaigns' => Campaign::where('User_id', Auth::user()->id)->with('User', 'Brand', 'Metrics')->orderBy('created_at', 'desc')->get()
         ]);
     }
 
@@ -59,52 +59,76 @@ class CampaignController extends Controller
 
         try {
             $campaign = [
-                'Brand_id' => $request->Brand_id,
-                'User_id' => Auth::id(),
+                'Brand_id'  => $request->Brand_id,
+                'User_id'   => Auth::id(),
+                'tanggal'   => now(),
             ];
 
             $saveCampaign = Campaign::create($campaign);
             // Simpan data TikTok
             CampaignMetric::create([
                 'campaign_id'      => $saveCampaign->id,
-                'platform'         => 'tiktok',
-                'impression'       => $request->impression,
-                'reach'            => $request->reach,
-                'klik'             => $request->klik,
-                'ctr'              => $request->ctr,
-                'cpc'              => $request->cpc,
-                'atc'              => $request->atc,
-                'cost_atc'         => $request->cost_atc,
-                'ic'               => $request->ic,
-                'purchase'         => $request->purchase,
-                'conversion_rate'  => $request->conversion_rate,
-                'total_spend'      => $request->total_spend,
-                'roas'             => $request->roas,
-            ]);
 
-            // Simpan data GMV Max
-            CampaignMetric::create([
-                'campaign_id'      => $saveCampaign->id,
-                'platform'         => 'gmvmax',
-                'impression'       => $request->impression_gmvmax,
-                'reach'            => $request->reach_gmvmax,
-                'klik'             => $request->klik_gmvmax,
-                'ctr'              => $request->ctr_gmvmax,
-                'cpc'              => $request->cpc_gmvmax,
-                'atc'              => $request->atc_gmvmax,
-                'cost_atc'         => $request->cost_atc_gmvmax,
-                'ic'               => $request->ic_gmvmax,
-                'purchase'         => $request->purchase_gmvmax,
-                'conversion_rate'  => $request->conversion_rate_gmvmax,
-                'total_spend'      => $request->total_spend_gmvmax,
-                'roas'             => $request->roas_gmvmax,
-                'roi'              => $request->roi_gmvmax
+                // tiktok
+                'impression'            => $request->impression,
+                'reach'                 => $request->reach,
+                'klik'                  => $request->klik,
+                'ctr'                   => $request->ctr,
+                'cpc'                   => $request->cpc,
+                'atc'                   => $request->atc,
+                'cost_atc'              => $request->cost_atc,
+                'ic'                    => $request->ic,
+                'purchase'              => $request->purchase,
+                'conversion_rate'       => $request->conversion_rate,
+                'total_spend'           => $request->total_spend,
+                'roas'                  => $request->roas,
+
+                // GMV Max
+                'impression_gmvmax'       => $request->impression_gmvmax,
+                'reach_gmvmax'            => $request->reach_gmvmax,
+                'klik_gmvmax'             => $request->klik_gmvmax,
+                'ctr_gmvmax'              => $request->ctr_gmvmax,
+                'cpc_gmvmax'              => $request->cpc_gmvmax,
+                'atc_gmvmax'              => $request->atc_gmvmax,
+                'cost_atc_gmvmax'         => $request->cost_atc_gmvmax,
+                'ic_gmvmax'               => $request->ic_gmvmax,
+                'purchase_gmvmax'         => $request->purchase_gmvmax,
+                'conversion_rate_gmvmax'  => $request->conversion_rate_gmvmax,
+                'total_spend_gmvmax'      => $request->total_spend_gmvmax,
+                'roas_gmvmax'             => $request->roas_gmvmax,
+                'roi_gmvmax'              => $request->roi_gmvmax
             ]);
 
             // Kembalikan response JSON untuk AJAX
             return response()->json([
                 'success' => true,
                 'campaign' => 'sukses'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function hapus($id)
+    {
+        try {
+            $campaignMetrix = CampaignMetric::findOrFail($id);
+            $campaign = Campaign::findOrFail($campaignMetrix->campaign_id);
+
+            // Pastikan user punya hak akses
+            if ($campaign->User_id != Auth::user()->id) {
+                return response()->json(['success' => false, 'message' => 'Tidak punya akses.']);
+            }
+
+            $campaign->delete();
+            $campaignMetrix->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Campaign berhasil dihapus.'
             ]);
         } catch (\Exception $e) {
             return response()->json([

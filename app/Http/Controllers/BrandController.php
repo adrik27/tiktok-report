@@ -13,7 +13,6 @@ class BrandController extends Controller
     {
         return view('admin.brands.index', [
             'title' => 'Brands',
-            'brands' => Brand::where('User_id', Auth::user()->id)->with('User')->get()
         ]);
     }
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('Brand_id');
             $table->foreignId('User_id');
-            $table->date('tanggal')->default(now());
+            $table->date('tanggal')->nullable();
             $table->timestamps();
         });
     }

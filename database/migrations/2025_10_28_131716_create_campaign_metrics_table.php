@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('campaign_metrics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('campaign_id');
-            $table->enum('platform', ['tiktok', 'gmvmax']);
+            // $table->enum('platform', ['tiktok', 'gmvmax']);
 
             $table->integer('impression')->nullable();
             $table->integer('reach')->nullable();
@@ -28,7 +28,20 @@ return new class extends Migration
             $table->decimal('conversion_rate', 10, 2)->nullable();
             $table->integer('total_spend')->nullable();
             $table->integer('roas')->nullable();
-            $table->integer('roi')->nullable();
+
+            $table->integer('impression_gmvmax')->nullable();
+            $table->integer('reach_gmvmax')->nullable();
+            $table->integer('klik_gmvmax')->nullable();
+            $table->decimal('ctr_gmvmax', 10, 2)->nullable();
+            $table->integer('cpc_gmvmax')->nullable();
+            $table->integer('atc_gmvmax')->nullable();
+            $table->integer('cost_atc_gmvmax')->nullable();
+            $table->integer('ic_gmvmax')->nullable();
+            $table->integer('purchase_gmvmax')->nullable();
+            $table->decimal('conversion_rate_gmvmax', 10, 2)->nullable();
+            $table->integer('total_spend_gmvmax')->nullable();
+            $table->integer('roas_gmvmax')->nullable();
+            $table->integer('roi_gmvmax')->nullable();
 
             $table->timestamps();
         });
