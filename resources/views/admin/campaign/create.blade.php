@@ -18,334 +18,250 @@
         <div class="col-md-12 col-xl-12">
             <div class="card">
 
-                <form action="{{ url('/campaign/create') }}" method="post" id="campaignForm">
+                <form action="{{ isset($campaign) ? url('/campaign/' . $campaign->id) : url('/campaign/create') }}"
+                    method="POST" id="campaignForm">
                     @csrf
+                    @if (isset($campaign))
+                        @method('PUT')
+                    @endif
+
+                    <input type="hidden" id="campaign-id" name="id">
 
                     <div class="card-header">
-                        <ul class="nav nav-pills nav-justified justify-content-center bg-light" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#navpills2-tiktok" role="tab">
-                                    <span class="">Tiktok Shop</span>
-                                </a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" href="#navpills2-gmvmax" role="tab">
-                                    <span class="">GMV Max</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="card-header">
-                        <label class="form-label">Brand</label>
-                        <select name="Brand_id" id="brand_id" class="form-control brand-select" required>
-                            <option disabled selected>-- Pilih Brand Dahulu --</option>
-                            @foreach ($brands as $brand)
-                                <option value="{{ $brand->id }}">{{ strtoupper($brand->nama) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="tab-content p-3 text-muted">
-                            <div class="tab-pane active show" id="navpills2-tiktok" role="tabpanel">
-                                {{-- <input type="hidden" name="platform[tiktok]" value="tiktok"> --}}
-
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Impression</label>
-                                            <input type="number"
-                                                class="form-control @error('impression') is-invalid @enderror"
-                                                name="impression" placeholder="Impression" required>
-                                            @error('impression')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Reach</label>
-                                            <input type="number" class="form-control @error('reach') is-invalid @enderror"
-                                                name="reach" placeholder="Reach" required>
-                                            @error('reach')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Clicks</label>
-                                            <input type="number" class="form-control @error('klik') is-invalid @enderror"
-                                                name="klik" placeholder="Clicks" required>
-                                            @error('klik')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Ctr</label>
-                                            <input type="number" class="form-control @error('ctr') is-invalid @enderror"
-                                                name="ctr" placeholder="Ctr" required>
-                                            @error('ctr')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">CPC</label>
-                                            <input type="number" class="form-control @error('cpc') is-invalid @enderror"
-                                                name="cpc" placeholder="CPC" required>
-                                            @error('cpc')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">ATC</label>
-                                            <input type="number" class="form-control @error('atc') is-invalid @enderror"
-                                                name="atc" placeholder="ATC" required>
-                                            @error('atc')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Cost ATC</label>
-                                            <input type="number"
-                                                class="form-control @error('cost_atc') is-invalid @enderror" name="cost_atc"
-                                                placeholder="Cost ATC" required>
-                                            @error('cost_atc')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">IC</label>
-                                            <input type="number" class="form-control @error('ic') is-invalid @enderror"
-                                                name="ic" placeholder="IC" required>
-                                            @error('ic')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Purchase</label>
-                                            <input type="number"
-                                                class="form-control @error('purchase') is-invalid @enderror"
-                                                name="purchase" placeholder="Purchase" required>
-                                            @error('purchase')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Conversion Rate</label>
-                                            <input type="number"
-                                                class="form-control @error('conversion_rate') is-invalid @enderror"
-                                                name="conversion_rate" placeholder="Conversion Rate" required>
-                                            @error('conversion_rate')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Total Spend</label>
-                                            <input type="number"
-                                                class="form-control @error('total_spend') is-invalid @enderror"
-                                                name="total_spend" placeholder="Total Spend" required>
-                                            @error('total_spend')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">ROAS</label>
-                                            <input type="number"
-                                                class="form-control @error('roas') is-invalid @enderror" name="roas"
-                                                placeholder="ROAS" required>
-                                            @error('roas')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Brand</label>
+                                    <select name="brand_id" id="brand_id" class="form-control brand-select" required>
+                                        @foreach ($brands as $brand)
+                                            <option value="{{ $brand->id }}"
+                                                {{ isset($campaign) && $campaign->brand_id == $brand->id ? 'selected' : '' }}>
+                                                {{ strtoupper($brand->nama) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="navpills2-gmvmax" role="tabpanel">
-                                {{-- <input type="hidden" name="platform[gmvmax]" value="gmvmax"> --}}
-
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Impression</label>
-                                            <input type="number"
-                                                class="form-control @error('impression_gmvmax') is-invalid @enderror"
-                                                name="impression_gmvmax" placeholder="Impression" required>
-                                            @error('impression_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Reach</label>
-                                            <input type="number"
-                                                class="form-control @error('reach_gmvmax') is-invalid @enderror"
-                                                name="reach_gmvmax" placeholder="Reach" required>
-                                            @error('reach_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Clicks</label>
-                                            <input type="number"
-                                                class="form-control @error('klik_gmvmax') is-invalid @enderror"
-                                                name="klik_gmvmax" placeholder="Clicks" required>
-                                            @error('klik_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Ctr</label>
-                                            <input type="number"
-                                                class="form-control @error('ctr_gmvmax') is-invalid @enderror"
-                                                name="ctr_gmvmax" placeholder="Ctr" required>
-                                            @error('ctr_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">CPC</label>
-                                            <input type="number"
-                                                class="form-control @error('cpc_gmvmax') is-invalid @enderror"
-                                                name="cpc_gmvmax" placeholder="CPC" required>
-                                            @error('cpc_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">ATC</label>
-                                            <input type="number"
-                                                class="form-control @error('atc_gmvmax') is-invalid @enderror"
-                                                name="atc_gmvmax" placeholder="ATC" required>
-                                            @error('atc_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Cost ATC</label>
-                                            <input type="number"
-                                                class="form-control @error('cost_atc_gmvmax') is-invalid @enderror"
-                                                name="cost_atc_gmvmax" placeholder="Cost ATC" required>
-                                            @error('cost_atc_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">IC</label>
-                                            <input type="number"
-                                                class="form-control @error('ic_gmvmax') is-invalid @enderror"
-                                                name="ic_gmvmax" placeholder="IC" required>
-                                            @error('ic_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Purchase</label>
-                                            <input type="number"
-                                                class="form-control @error('purchase_gmvmax') is-invalid @enderror"
-                                                name="purchase_gmvmax" placeholder="Purchase" required>
-                                            @error('purchase_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Conversion Rate</label>
-                                            <input type="number"
-                                                class="form-control @error('conversion_rate_gmvmax') is-invalid @enderror"
-                                                name="conversion_rate_gmvmax" placeholder="Conversion Rate" required>
-                                            @error('conversion_rate_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Total Spend</label>
-                                            <input type="number"
-                                                class="form-control @error('total_spend_gmvmax') is-invalid @enderror"
-                                                name="total_spend_gmvmax" placeholder="Total Spend" required>
-                                            @error('total_spend_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">ROAS</label>
-                                            <input type="number"
-                                                class="form-control @error('roas_gmvmax') is-invalid @enderror"
-                                                name="roas_gmvmax" placeholder="ROAS" required>
-                                            @error('roas_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">ROI</label>
-                                            <input type="number"
-                                                class="form-control @error('roi_gmvmax') is-invalid @enderror"
-                                                name="roi_gmvmax" placeholder="ROI" required>
-                                            @error('roi_gmvmax')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Platform</label>
+                                    <select name="platform" id="platform" class="form-control platform-select" required
+                                        onchange="Platform()">
+                                        <option disabled {{ !isset($campaign) ? 'selected' : '' }}>-- Pilih Platform Dahulu
+                                            --</option>
+                                        <option value="tiktok"
+                                            {{ isset($campaign) && $campaign->platform == 'tiktok' ? 'selected' : '' }}>
+                                            Tiktok</option>
+                                        <option value="gmvmax"
+                                            {{ isset($campaign) && $campaign->platform == 'gmvmax' ? 'selected' : '' }}>GMV
+                                            MAX</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
+
+                        {{-- TIKTOK --}}
+                        <div class="row tiktok">
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mb-3">
+                                    <label class="form-label">COST</label>
+                                    <input type="number" class="form-control @error('cost') is-invalid @enderror"
+                                        name="cost" placeholder="COST" value="{{ $campaign->cost ?? '' }}" required>
+                                    @error('cost')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">CPM</label>
+                                    <input type="number" class="form-control tiktok @error('cpm') is-invalid @enderror"
+                                        name="cpm" placeholder="CPM" value="{{ $campaign->cpm ?? '' }}" required>
+                                    @error('cpm')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Impression</label>
+                                    <input type="number"
+                                        class="form-control tiktok @error('impression') is-invalid @enderror"
+                                        name="impression" placeholder="Impression"
+                                        value="{{ $campaign->impression ?? '' }}" required>
+                                    @error('impression')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Klik</label>
+                                    <input type="number" class="form-control tiktok @error('klik') is-invalid @enderror"
+                                        name="klik" placeholder="Klik" value="{{ $campaign->klik ?? '' }}" required>
+                                    @error('klik')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">CPC</label>
+                                    <input type="number" class="form-control tiktok @error('cpc') is-invalid @enderror"
+                                        name="cpc" placeholder="CPC" value="{{ $campaign->cpc ?? '' }}" required>
+                                    @error('cpc')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Page View</label>
+                                    <input type="number"
+                                        class="form-control tiktok @error('page_view') is-invalid @enderror"
+                                        name="page_view" placeholder="Page View" value="{{ $campaign->page_view ?? '' }}"
+                                        required>
+                                    @error('page_view')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mb-3">
+                                    <label class="form-label">CPV</label>
+                                    <input type="number" class="form-control tiktok @error('cpv') is-invalid @enderror"
+                                        name="cpv" placeholder="CPV" value="{{ $campaign->cpv ?? '' }}" required>
+                                    @error('cpv')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Initiate</label>
+                                    <input type="number"
+                                        class="form-control tiktok @error('initiate') is-invalid @enderror" name="initiate"
+                                        placeholder="Initiate" value="{{ $campaign->initiate ?? '' }}" required>
+                                    @error('initiate')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cost/Initiate</label>
+                                    <input type="number"
+                                        class="form-control tiktok @error('cost_per_initiate') is-invalid @enderror"
+                                        name="cost_per_initiate" value="{{ $campaign->cost_per_initiate ?? '' }}"
+                                        placeholder="Cost/Initiate" required>
+                                    @error('cost_per_initiate')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Result</label>
+                                    <input type="number"
+                                        class="form-control purchase @error('result') is-invalid @enderror" name="result"
+                                        value="{{ $campaign->result ?? '' }}" placeholder="Result">
+                                    @error('result')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">CPR</label>
+                                    <input type="number"
+                                        class="form-control purchase @error('cpr') is-invalid @enderror" name="cpr"
+                                        value="{{ $campaign->cpr ?? '' }}" placeholder="CPR">
+                                    @error('cpr')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{-- GMV MAX --}}
+                        <div class="row gmvmax">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">COST</label>
+                                    <input type="number" class="form-control @error('cost') is-invalid @enderror"
+                                        name="cost" placeholder="COST" value="{{ $campaign->cost ?? '' }}" required>
+                                    @error('cost')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Order</label>
+                                    <input type="number"
+                                        class="form-control gmvmax @error('order') is-invalid @enderror" name="order"
+                                        placeholder="Order" value="{{ $campaign->order ?? '' }}" required>
+                                    @error('order')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cost/Order</label>
+                                    <input type="number"
+                                        class="form-control gmvmax @error('cost_per_order') is-invalid @enderror"
+                                        name="cost_per_order" placeholder="Cost/Order"
+                                        value="{{ $campaign->cost_per_order ?? '' }}" required>
+                                    @error('cost_per_order')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Gross Revenue</label>
+                                    <input type="number"
+                                        class="form-control gmvmax @error('gross_revenue') is-invalid @enderror"
+                                        name="gross_revenue" placeholder="Gross Revenue"
+                                        value="{{ $campaign->gross_revenue ?? '' }}" required>
+                                    @error('gross_revenue')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">ROI</label>
+                                    <input type="number" class="form-control gmvmax @error('roi') is-invalid @enderror"
+                                        name="roi" placeholder="ROI" value="{{ $campaign->roi ?? '' }}" required>
+                                    @error('roi')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-center">
-                                    <button type="submit" id="saveCampaignBtn" class="btn btn-primary">Save
-                                        Campaign</button>
+                                    <button type="submit" id="saveCampaignBtn" class="btn btn-primary">
+                                        {{ isset($campaign) ? 'Update Campaign' : 'Save Campaign' }}
+                                    </button>
+
                                 </div>
                             </div>
                         </div>
@@ -364,6 +280,10 @@
     <script>
         $(document).ready(function() {
             $('.brand-select').select2();
+            $('.platform-select').select2();
+
+            Platform(); // Pastikan kondisi awal sesuai pilihan
+            $('#platform').on('change', Platform);
 
             // Modal create/update
             const form = $('#campaignForm');
@@ -372,13 +292,18 @@
             // Submit form (create & update)
             form.on('submit', function(e) {
                 e.preventDefault();
+                var platform = $('#platform').val();
+
+                if (platform == 'tiktok') {
+                    $('.gmvmax input.gmvmax').val('');
+                } else {
+                    $('.tiktok input.tiktok').val('');
+                    $('.tiktok input.purchase').val('');
+                }
+
                 let url = form.attr('action');
                 let type = 'POST';
                 const formData = new FormData(this);
-
-                // url = `/campaign/create`;
-                // type = 'POST';
-                // formData.append('_method', 'PUT');
 
                 btn.prop('disabled', true).html(
                     `<span class="spinner-border spinner-border-sm"></span> Proses...`);
@@ -393,13 +318,14 @@
                         btn.prop('disabled', false).html('Save Campaign');
                         if (data.success) {
                             Swal.fire('Berhasil!', data.message, 'success');
-                            form[0].reset();
+                            $('#campaignForm')[0].reset();
+                            $('#campaign-id').val('');
                             window.location.href = '/campaign';
-
                         } else {
                             Swal.fire('Gagal!', data.message, 'error');
                         }
                     },
+
                     error: function() {
                         btn.prop('disabled', false).html('Save Campaign');
                         Swal.fire('Error!', 'Terjadi kesalahan.', 'error');
@@ -407,5 +333,30 @@
                 });
             });
         });
+
+        function Platform() {
+            var platform = $('#platform').val();
+
+            if (platform == 'gmvmax') {
+                // Tampilkan GMV MAX, sembunyikan TIKTOK
+                $('.gmvmax').show();
+                $('.tiktok').hide();
+
+                // Nonaktifkan required di TikTok
+                $('.tiktok input.tiktok').prop('required', false);
+                // Aktifkan required di GMV MAX
+                $('.gmvmax input').prop('required', true);
+
+            } else {
+                // Tampilkan TIKTOK, sembunyikan GMV MAX
+                $('.gmvmax').hide();
+                $('.tiktok').show();
+
+                // Aktifkan required di TikTok
+                $('.tiktok input.tiktok').prop('required', true);
+                // Nonaktifkan required di GMV MAX
+                $('.gmvmax input').prop('required', false);
+            }
+        }
     </script>
 @endsection

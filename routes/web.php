@@ -36,6 +36,8 @@ Route::get('/campaign', [CampaignController::class, 'index'])->name('campaign.in
 Route::get('/campaign/ajax', [YajraCampaignController::class, 'tampil_data'])->name('campaign.ajax');
 Route::get('/campaign/create', [CampaignController::class, 'create'])->name('campaign.create');
 Route::post('/campaign/create', [CampaignController::class, 'proses_create'])->name('campaign.proses_create');
+Route::get('/campaign/{id}/edit', [CampaignController::class, 'edit'])->name('campaign.edit');
+Route::put('/campaign/{id}', [CampaignController::class, 'update'])->name('campaign.update');
 Route::delete('/campaign/{id}', [CampaignController::class, 'hapus'])->name('campaign.hapus');
 
 

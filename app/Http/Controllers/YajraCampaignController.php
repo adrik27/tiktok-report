@@ -12,24 +12,23 @@ class YajraCampaignController
 {
     public function tampil_data()
     {
-        $campaign = Campaign::where('User_id', Auth::user()->id)->pluck('id');
-
-        $campaignMetrix = CampaignMetric::whereIn('Campaign_id', $campaign)->with('Campaign')->get();
+        $campaignMetrix = CampaignMetric::where('user_id', Auth::id())->with('User', 'Brand')->get();
 
         return DataTables::of($campaignMetrix)
             ->addIndexColumn()
             ->addColumn('nama', function ($row) {
-                return ucwords($row->campaign->Brand->nama);
+                return ucwords($row->Brand->nama);
             })
             ->addColumn('tanggal', function ($row) {
-                return date('d M Y', strtotime($row->campaign->tanggal));
+                return date('d M Y', strtotime($row->tanggal));
             })
             ->addColumn('action', function ($row) {
-                // <button class="btn btn-sm btn-warning" data-id="' . $row->id . '" data-name="' . $row->nama . '">Edit</button>
                 return '
+                    <a href="' . url('/campaign/' . $row->id . '/edit') . '"  class="btn btn-sm btn-warning">Edit</a>
                     <button class="btn btn-sm btn-danger deleteCampaignBtn" data-id="' . $row->id . '">Hapus</button>
                 ';
             })
+
             ->rawColumns(['action', 'tanggal', 'nama'])
             ->make(true);
     }

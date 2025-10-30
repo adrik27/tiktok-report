@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Campaign;
+use App\Models\Brand;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,8 +14,13 @@ class CampaignMetric extends Model
     protected $table = 'campaign_metrics';
     protected $guarded = ['id'];
 
-    public function Campaign()
+    public function Brand()
     {
-        return $this->belongsTo(Campaign::class, 'campaign_id', 'id');
+        return $this->belongsTo(Brand::class, 'brand_id', 'id');
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

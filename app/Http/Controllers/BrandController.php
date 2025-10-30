@@ -47,7 +47,7 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => 'required',
         ]);
 
         try {
@@ -59,7 +59,7 @@ class BrandController extends Controller
             }
 
             $brand->update([
-                'name' => $request->nama
+                'nama' => $request->nama
             ]);
 
             return response()->json([

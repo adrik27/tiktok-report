@@ -3,7 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Campaign;
+use App\Models\Brand;
+use App\Models\CampaignMetric;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,7 +52,7 @@ class User extends Authenticatable
 
     public function Campaign()
     {
-        return $this->hasMany(Campaign::class, 'User_id');
+        return $this->hasMany(CampaignMetric::class, 'user_id');
     }
     public function Brand()
     {

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Campaign;
+use App\Models\CampaignMetric;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class Brand extends Model
 
     public function Campaign()
     {
-        return $this->hasMany(Campaign::class, 'Brand_id');
+        return $this->hasMany(CampaignMetric::class, 'brand_id');
     }
 
     public function User()

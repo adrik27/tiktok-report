@@ -38,6 +38,8 @@
                                     <form id="brandForm" action="{{ url('/brands') }}" method="POST">
                                         <div class="modal-body">
                                             @csrf
+                                            <input type="hidden" id="brand-id" name="id">
+
                                             <div class="mb-3">
                                                 <label for="brand-name" class="form-label">Brand Name</label>
                                                 <input type="text" class="form-control" id="brand-name" name="nama"
@@ -128,9 +130,23 @@
                 const id = $(this).data('id');
                 const name = $(this).data('name');
 
+                // Isi data ke form
                 $('#brand-id').val(id);
                 $('#brand-name').val(name);
+
+                // Ubah judul dan teks tombol
+                $('#add-brand-label').text('Edit Brand');
+                $('#saveBrandBtn').text('Update Brand');
+
+                // Buka modal
                 $('#exampleModal').modal('show');
+            });
+
+            $('#exampleModal').on('hidden.bs.modal', function() {
+                $('#brandForm')[0].reset();
+                $('#brand-id').val('');
+                $('#add-brand-label').text('Add Brand');
+                $('#saveBrandBtn').text('Save Brand');
             });
 
             // Delete brand
@@ -169,21 +185,22 @@
             });
 
             // Submit form (create & update)
-            form.on('submit', function(e) {
+            $('#brandForm').on('submit', function(e) {
                 e.preventDefault();
                 const id = $('#brand-id').val();
-                let url = form.attr('action');
-                let type = 'POST';
                 const formData = new FormData(this);
+                let url = '/brands';
+                let type = 'POST';
 
                 if (id) {
                     url = `/brands/${id}`;
-                    type = 'POST';
                     formData.append('_method', 'PUT');
                 }
 
+                const btn = $('#saveBrandBtn');
                 btn.prop('disabled', true).html(
-                    `<span class="spinner-border spinner-border-sm"></span> Proses...`);
+                    `<span class="spinner-border spinner-border-sm"></span> Proses...`
+                );
 
                 $.ajax({
                     url: url,
@@ -195,8 +212,9 @@
                         btn.prop('disabled', false).html('Save Brand');
                         if (data.success) {
                             Swal.fire('Berhasil!', data.message, 'success');
-                            form[0].reset();
                             $('#exampleModal').modal('hide');
+                            $('#brandForm')[0].reset();
+                            $('#brand-id').val('');
                             table.ajax.reload();
                         } else {
                             Swal.fire('Gagal!', data.message, 'error');
@@ -208,6 +226,7 @@
                     }
                 });
             });
+
         });
     </script>
 @endsection

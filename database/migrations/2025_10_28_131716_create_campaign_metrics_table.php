@@ -13,35 +13,27 @@ return new class extends Migration
     {
         Schema::create('campaign_metrics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campaign_id');
-            // $table->enum('platform', ['tiktok', 'gmvmax']);
+            $table->foreignId('brand_id');
+            $table->foreignId('user_id');
+            $table->enum('platform', ['tiktok', 'gmvmax']);
 
+            $table->integer('cost')->nullable();
+            $table->integer('cpm')->nullable();
             $table->integer('impression')->nullable();
-            $table->integer('reach')->nullable();
-            $table->integer('klik')->nullable();
-            $table->decimal('ctr', 10, 2)->nullable();
+            $table->decimal('klik')->nullable();
             $table->integer('cpc')->nullable();
-            $table->integer('atc')->nullable();
-            $table->integer('cost_atc')->nullable();
-            $table->integer('ic')->nullable();
-            $table->integer('purchase')->nullable();
-            $table->decimal('conversion_rate', 10, 2)->nullable();
-            $table->integer('total_spend')->nullable();
-            $table->integer('roas')->nullable();
+            $table->integer('page_view')->nullable();
+            $table->integer('cpv')->nullable();
+            $table->integer('initiate')->nullable();
+            $table->integer('cost_per_initiate')->nullable();
+            $table->decimal('result')->nullable();
+            $table->integer('cpr')->nullable();
+            $table->integer('order')->nullable();
+            $table->integer('cost_per_order')->nullable();
+            $table->integer('gross_revenue')->nullable();
+            $table->integer('roi')->nullable();
 
-            $table->integer('impression_gmvmax')->nullable();
-            $table->integer('reach_gmvmax')->nullable();
-            $table->integer('klik_gmvmax')->nullable();
-            $table->decimal('ctr_gmvmax', 10, 2)->nullable();
-            $table->integer('cpc_gmvmax')->nullable();
-            $table->integer('atc_gmvmax')->nullable();
-            $table->integer('cost_atc_gmvmax')->nullable();
-            $table->integer('ic_gmvmax')->nullable();
-            $table->integer('purchase_gmvmax')->nullable();
-            $table->decimal('conversion_rate_gmvmax', 10, 2)->nullable();
-            $table->integer('total_spend_gmvmax')->nullable();
-            $table->integer('roas_gmvmax')->nullable();
-            $table->integer('roi_gmvmax')->nullable();
+            $table->date('tanggal')->nullable();
 
             $table->timestamps();
         });
