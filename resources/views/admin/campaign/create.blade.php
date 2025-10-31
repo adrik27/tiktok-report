@@ -25,7 +25,7 @@
                         @method('PUT')
                     @endif
 
-                    <input type="hidden" id="campaign-id" name="id">
+                    <input type="hidden" id="campaign-id" name="id" value={{ isset($campaign) ? $campaign->id : '' }}>
 
                     <div class="card-header">
                         <div class="row">
@@ -68,8 +68,8 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="mb-3">
                                     <label class="form-label">COST</label>
-                                    <input type="number" class="form-control @error('cost') is-invalid @enderror"
-                                        name="cost" placeholder="COST" value="{{ $campaign->cost ?? '' }}" required>
+                                    <input type="number" class="form-control cost" name="cost_tiktok" placeholder="COST"
+                                        value="{{ $campaign->cost ?? '' }}" required>
                                     @error('cost')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -178,9 +178,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">CPR</label>
-                                    <input type="number"
-                                        class="form-control purchase @error('cpr') is-invalid @enderror" name="cpr"
-                                        value="{{ $campaign->cpr ?? '' }}" placeholder="CPR">
+                                    <input type="number" class="form-control purchase @error('cpr') is-invalid @enderror"
+                                        name="cpr" value="{{ $campaign->cpr ?? '' }}" placeholder="CPR">
                                     @error('cpr')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -196,8 +195,8 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label">COST</label>
-                                    <input type="number" class="form-control @error('cost') is-invalid @enderror"
-                                        name="cost" placeholder="COST" value="{{ $campaign->cost ?? '' }}" required>
+                                    <input type="number" class="form-control cost" name="cost_gmvmax"
+                                        placeholder="COST" value="{{ $campaign->cost ?? '' }}" required>
                                     @error('cost')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -292,13 +291,23 @@
             // Submit form (create & update)
             form.on('submit', function(e) {
                 e.preventDefault();
-                var platform = $('#platform').val();
 
-                if (platform == 'tiktok') {
+                var platform = $('#platform').val();
+                // var isUpdate = $('#campaign-id').val() !== '';
+
+                if (platform === 'tiktok') {
+                    // Hanya kosongkan GMV MAX kalau CREATE
+                    // if (!isUpdate) {
                     $('.gmvmax input.gmvmax').val('');
-                } else {
+                    // $('[name="cost_gmvmax"]').val('');
+                    // }
+                } else if (platform === 'gmvmax') {
+                    // Hanya kosongkan TikTok kalau CREATE
+                    // if (!isUpdate) {
+                    // $('[name="cost_tiktok"]').val('');
                     $('.tiktok input.tiktok').val('');
                     $('.tiktok input.purchase').val('');
+                    // }
                 }
 
                 let url = form.attr('action');

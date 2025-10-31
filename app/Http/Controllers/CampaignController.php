@@ -32,7 +32,7 @@ class CampaignController extends Controller
         // Validasi input
         if ($request->platform == 'tiktok') {
             $request->validate([
-                'cost'                  => 'required',
+                // 'cost'                  => 'required',
                 'cpm'                   => 'required',
                 'impression'            => 'required',
                 'klik'                  => 'required',
@@ -46,7 +46,7 @@ class CampaignController extends Controller
             ]);
         } else {
             $request->validate([
-                'cost'                  => 'required',
+                // 'cost'                  => 'required',
                 'order'                 => 'required',
                 'cost_per_order'        => 'required',
                 'gross_revenue'         => 'required',
@@ -55,6 +55,14 @@ class CampaignController extends Controller
         }
 
         try {
+            if ($request->platform === 'tiktok') {
+                $cost = $request->cost_tiktok ?? $request->cost_gmvmax ?? 0;
+            } elseif ($request->platform === 'gmvmax') {
+                $cost = $request->cost_gmvmax ?? $request->cost_tiktok ?? 0;
+            } else {
+                $cost = 0;
+            }
+
             $createCampaign = CampaignMetric::create([
 
                 'user_id'               => Auth::id(),
@@ -62,7 +70,7 @@ class CampaignController extends Controller
                 'brand_id'              => $request->brand_id,
                 'platform'              => $request->platform,
 
-                'cost'                  => $request->cost ?? 0,
+                'cost'                  => $cost,
                 'cpm'                   => $request->cpm ?? 0,
                 'impression'            => $request->impression ?? 0,
                 'klik'                  => $request->klik ?? 0,
@@ -114,6 +122,14 @@ class CampaignController extends Controller
         $campaign = CampaignMetric::findOrFail($id);
 
         try {
+            if ($request->platform === 'tiktok') {
+                $cost = $request->cost_tiktok ?? $request->cost_gmvmax ?? 0;
+            } elseif ($request->platform === 'gmvmax') {
+                $cost = $request->cost_gmvmax ?? $request->cost_tiktok ?? 0;
+            } else {
+                $cost = 0;
+            }
+
             $createCampaign = $campaign->update([
 
                 'user_id'               => Auth::id(),
@@ -121,7 +137,7 @@ class CampaignController extends Controller
                 'brand_id'              => $request->brand_id,
                 'platform'              => $request->platform,
 
-                'cost'                  => $request->cost ?? 0,
+                'cost'                  => $cost,
                 'cpm'                   => $request->cpm ?? 0,
                 'impression'            => $request->impression ?? 0,
                 'klik'                  => $request->klik ?? 0,
