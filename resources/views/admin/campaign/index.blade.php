@@ -2,6 +2,32 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+    <style>
+        /* Buat kolom menyesuaikan isi */
+        #campaignTable {
+            table-layout: auto !important;
+            width: 100% !important;
+        }
+
+        /* Pastikan isi tabel tidak pecah ke baris baru */
+        #campaignTable th,
+        #campaignTable td {
+            white-space: nowrap;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* Biar header tidak terlalu rapat */
+        #campaignTable th {
+            padding: 8px 12px;
+        }
+
+        /* Biar horizontal scroll aktif kalau isi panjang */
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -35,47 +61,51 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="campaignTable" class="table table-striped table-bordered table-responsive-lg"
-                            style="width:100%">
+                    <!-- Bagian atas: show entries + search -->
+                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+                        <div id="campaignTable_length"></div>
+                        <div id="campaignTable_filter"></div>
+                    </div>
+
+                    <!-- HANYA tabel yang di-scroll -->
+                    <div class="table-wrapper" style="overflow-x: auto;">
+                        <table id="campaignTable" class="table table-striped table-bordered" style="min-width: 1500px;">
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Tgl Buat</th>
                                     <th>Nama Brand</th>
-                                    <th>Dibuat Pada</th>
-                                    <th>Impression Tiktok</th>
-                                    <th>Reach Tiktok</th>
-                                    <th>Klik Tiktok</th>
-                                    <th>CTR Tiktok</th>
-                                    <th>CPC Tiktok</th>
-                                    <th>ATC Tiktok</th>
-                                    <th>COST ATC Tiktok</th>
-                                    <th>IC Tiktok</th>
-                                    <th>Purchase Tiktok</th>
-                                    <th>Conversion Rate Tiktok</th>
-                                    <th>Total Spend Tiktok</th>
-                                    <th>ROAS Tiktok</th>
-                                    <th>Impression GMVMAX</th>
-                                    <th>Reach GMVMAX</th>
-                                    <th>Klik GMVMAX</th>
-                                    <th>CTR GMVMAX</th>
-                                    <th>CPC GMVMAX</th>
-                                    <th>ATC GMVMAX</th>
-                                    <th>COST ATC GMVMAX</th>
-                                    <th>IC GMVMAX</th>
-                                    <th>Purchase GMVMAX</th>
-                                    <th>Conversion Rate GMVMAX</th>
-                                    <th>Total Spend GMVMAX</th>
-                                    <th>ROAS GMVMAX</th>
-                                    <th>ROI GMVMAX</th>
+                                    <th>Platform</th>
+                                    <th>Cost</th>
+                                    <th>CPM</th>
+                                    <th>Impression</th>
+                                    <th>Klik</th>
+                                    <th>CPC</th>
+                                    <th>Page View</th>
+                                    <th>CPV</th>
+                                    <th>Initiate</th>
+                                    <th>Cost/Initiate</th>
+                                    <th>Result</th>
+                                    <th>CPR</th>
+                                    <th>Order</th>
+                                    <th>Cost/Order</th>
+                                    <th>Gross Revenue</th>
+                                    <th>ROI</th>
+                                    <th>Files</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            </tbody>
                         </table>
                     </div>
+
+                    <!-- Bagian bawah: info + pagination -->
+                    <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap">
+                        <div id="campaignTable_info"></div>
+                        <div id="campaignTable_paginate"></div>
+                    </div>
                 </div>
+
+
 
             </div>
         </div>
@@ -89,10 +119,16 @@
 
     <script>
         $(document).ready(function() {
-            const table = $('#campaignTable').DataTable({
+            $('#campaignTable').DataTable({
                 serverSide: true,
-                responsive: true,
-                ajax: "{{ route('campaign.ajax') }}", // route untuk data AJAX
+                responsive: false,
+                ajax: {
+                    url: "{{ route('campaign.ajax') }}",
+                    type: "POST",
+                    data: function(d) {
+                        d._token = $('meta[name="csrf-token"]').attr('content');
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -100,123 +136,94 @@
                         searchable: false
                     },
                     {
+                        data: 'tanggal',
+                        name: 'tanggal'
+                    },
+                    {
                         data: 'nama',
                         name: 'nama'
                     },
                     {
-                        data: 'tanggal',
-                        name: 'tanggal'
+                        data: 'platform',
+                        name: 'platform'
+                    },
+                    {
+                        data: 'cost',
+                        name: 'cost'
+                    },
+                    {
+                        data: 'cpm',
+                        name: 'cpm'
                     },
                     {
                         data: 'impression',
                         name: 'impression'
                     },
                     {
-                        data: 'reach',
-                        name: 'reach'
-                    },
-                    {
                         data: 'klik',
                         name: 'klik'
-                    },
-                    {
-                        data: 'ctr',
-                        name: 'ctr'
                     },
                     {
                         data: 'cpc',
                         name: 'cpc'
                     },
                     {
-                        data: 'atc',
-                        name: 'atc'
+                        data: 'page_view',
+                        name: 'page_view'
                     },
                     {
-                        data: 'cost_atc',
-                        name: 'cost_atc'
+                        data: 'cpv',
+                        name: 'cpv'
                     },
                     {
-                        data: 'ic',
-                        name: 'ic'
+                        data: 'initiate',
+                        name: 'initiate'
                     },
                     {
-                        data: 'purchase',
-                        name: 'purchase'
+                        data: 'cost_per_initiate',
+                        name: 'cost_per_initiate'
                     },
                     {
-                        data: 'conversion_rate',
-                        name: 'conversion_rate'
+                        data: 'result',
+                        name: 'result'
                     },
                     {
-                        data: 'total_spend',
-                        name: 'total_spend'
+                        data: 'cpr',
+                        name: 'cpr'
                     },
                     {
-                        data: 'roas',
-                        name: 'roas'
+                        data: 'order',
+                        name: 'order'
                     },
                     {
-                        data: 'impression_gmvmax',
-                        name: 'impression_gmvmax'
+                        data: 'cost_per_order',
+                        name: 'cost_per_order'
                     },
                     {
-                        data: 'reach_gmvmax',
-                        name: 'reach_gmvmax'
+                        data: 'gross_revenue',
+                        name: 'gross_revenue'
                     },
                     {
-                        data: 'klik_gmvmax',
-                        name: 'klik_gmvmax'
+                        data: 'roi',
+                        name: 'roi'
                     },
                     {
-                        data: 'ctr_gmvmax',
-                        name: 'ctr_gmvmax'
-                    },
-                    {
-                        data: 'cpc_gmvmax',
-                        name: 'cpc_gmvmax'
-                    },
-                    {
-                        data: 'atc_gmvmax',
-                        name: 'atc_gmvmax'
-                    },
-                    {
-                        data: 'cost_atc_gmvmax',
-                        name: 'cost_atc_gmvmax'
-                    },
-                    {
-                        data: 'ic_gmvmax',
-                        name: 'ic_gmvmax'
-                    },
-                    {
-                        data: 'purchase_gmvmax',
-                        name: 'purchase_gmvmax'
-                    },
-                    {
-                        data: 'conversion_rate_gmvmax',
-                        name: 'conversion_rate_gmvmax'
-                    },
-                    {
-                        data: 'total_spend_gmvmax',
-                        name: 'total_spend_gmvmax'
-                    },
-                    {
-                        data: 'roas_gmvmax',
-                        name: 'roas_gmvmax'
-                    },
-                    {
-                        data: 'roi_gmvmax',
-                        name: 'roi_gmvmax'
+                        data: 'files',
+                        name: 'files',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         searchable: false
-                    },
-                ]
+                    }
+                ],
             });
 
-             // Delete Campaign
+
+            // Delete Campaign
             $(document).on('click', '.deleteCampaignBtn', function() {
                 const id = $(this).data('id');
 

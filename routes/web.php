@@ -33,7 +33,7 @@ Route::delete('/brands/{id}', [BrandController::class, 'hapus'])->name('brands.h
 
 // campaign
 Route::get('/campaign', [CampaignController::class, 'index'])->name('campaign.index');
-Route::get('/campaign/ajax', [YajraCampaignController::class, 'tampil_data'])->name('campaign.ajax');
+Route::post('/campaign/ajax', [YajraCampaignController::class, 'tampil_data'])->name('campaign.ajax');
 Route::get('/campaign/create', [CampaignController::class, 'create'])->name('campaign.create');
 Route::post('/campaign/create', [CampaignController::class, 'proses_create'])->name('campaign.proses_create');
 Route::get('/campaign/{id}/edit', [CampaignController::class, 'edit'])->name('campaign.edit');
