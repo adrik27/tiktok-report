@@ -46,6 +46,14 @@
               </a>
           </li>
 
+          <li {{ Request::is('perbandingan/*') ? 'class="menuitem-active"' : '' }}>
+              <a class='tp-link {{ Request::is('perbandingan/*') ? 'class="active"' : '' }}'
+                  href='{{ url('perbandingan') }}'>
+                  <i data-feather="shuffle"></i>
+                  <span> Perbandingan </span>
+              </a>
+          </li>
+
       </ul>
 
   </div>

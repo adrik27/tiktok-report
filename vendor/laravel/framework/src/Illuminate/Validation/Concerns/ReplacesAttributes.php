@@ -938,7 +938,11 @@ trait ReplacesAttributes
      */
     private function replaceWhileKeepingCase(string $message, array $mapping): string
     {
+<<<<<<< HEAD
         $fn = [fn ($v) => $v, Str::upper(...), Str::ucfirst(...)];
+=======
+        $fn = [Str::lower(...), Str::upper(...), Str::ucfirst(...)];
+>>>>>>> 504888ed68f0d2fddc4d036c964653a41ef5c437
 
         $cases = array_reduce(
             array_keys($mapping),

@@ -19,17 +19,18 @@
             <div class="card">
 
                 <form action="{{ isset($campaign) ? url('/campaign/' . $campaign->id) : url('/campaign/create') }}"
-                    method="POST" id="campaignForm">
+                    method="POST" id="campaignForm" enctype="multipart/form-data">
                     @csrf
                     @if (isset($campaign))
                         @method('PUT')
                     @endif
 
                     <input type="hidden" id="campaign-id" name="id" value={{ isset($campaign) ? $campaign->id : '' }}>
+                    <input type="hidden" name="filesOld" value={{ isset($campaign) ? $campaign->files : '' }}>
 
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-lg-6 col-sm-12">
+                            <div class="col-lg-4 col-sm-12">
                                 <div class="mb-3">
                                     <label class="form-label">Brand</label>
                                     <select name="brand_id" id="brand_id" class="form-control brand-select" required>
@@ -42,7 +43,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-sm-12">
+                            <div class="col-lg-4 col-sm-12">
                                 <div class="mb-3">
                                     <label class="form-label">Platform</label>
                                     <select name="platform" id="platform" class="form-control platform-select" required
@@ -56,6 +57,13 @@
                                             {{ isset($campaign) && $campaign->platform == 'gmvmax' ? 'selected' : '' }}>GMV
                                             MAX</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Bukti Foto</label>
+                                    <input type="file" name="files" id="files" class="form-control"
+                                        accept="image/*">
                                 </div>
                             </div>
                         </div>
@@ -145,8 +153,9 @@
                                 <div class="mb-3">
                                     <label class="form-label">Initiate</label>
                                     <input type="number"
-                                        class="form-control tiktok @error('initiate') is-invalid @enderror" name="initiate"
-                                        placeholder="Initiate" value="{{ $campaign->initiate ?? '' }}" required>
+                                        class="form-control tiktok @error('initiate') is-invalid @enderror"
+                                        name="initiate" placeholder="Initiate" value="{{ $campaign->initiate ?? '' }}"
+                                        required>
                                     @error('initiate')
                                         <div class="invalid-feedback">
                                             {{ $message }}

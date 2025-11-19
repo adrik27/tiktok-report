@@ -10,26 +10,43 @@ use Yajra\DataTables\Facades\DataTables;
 
 class YajraCampaignController
 {
-    public function tampil_data()
+    public function tampil_data(Request $post)
     {
-        $campaignMetrix = CampaignMetric::where('user_id', Auth::id())->with('User', 'Brand')->get();
 
-        return DataTables::of($campaignMetrix)
-            ->addIndexColumn()
-            ->addColumn('nama', function ($row) {
-                return ucwords($row->Brand->nama);
-            })
-            ->addColumn('tanggal', function ($row) {
-                return date('d M Y', strtotime($row->tanggal));
-            })
-            ->addColumn('action', function ($row) {
-                return '
-                    <a href="' . url('/campaign/' . $row->id . '/edit') . '"  class="btn btn-sm btn-warning">Edit</a>
-                    <button class="btn btn-sm btn-danger deleteCampaignBtn" data-id="' . $row->id . '">Hapus</button>
-                ';
-            })
+        if ($post->ajax()) {
 
-            ->rawColumns(['action', 'tanggal', 'nama'])
-            ->make(true);
+            $campaignMetrix = CampaignMetric::where('user_id', Auth::id())->with('User', 'Brand')->get();
+
+            return DataTables::of($campaignMetrix)
+                ->addIndexColumn()
+                ->addColumn('nama', function ($row) {
+                    return ucwords($row->Brand->nama);
+                })
+                ->addColumn('tanggal', function ($row) {
+                    return date('d M Y', strtotime($row->tanggal));
+                })
+                ->addColumn('files', function ($row) {
+                    $url = url($row->files);
+                    return '<a href="' . $url . '" target="_blank">' . e($row->Brand->nama) . '</a>';
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <div class="d-flex justify-content-center gap-2">
+                                <a href="' . url('/campaign/' . $row->id . '/edit') . '" 
+                                class="btn btn-sm btn-warning">
+                                Edit
+                                </a>
+                                <button class="btn btn-sm btn-danger deleteCampaignBtn" 
+                                        data-id="' . $row->id . '">
+                                    Hapus
+                                </button>
+                            </div>
+                        ';
+                })
+
+
+                ->rawColumns(['action', 'tanggal', 'nama', 'files'])
+                ->make(true);
+        }
     }
 }
