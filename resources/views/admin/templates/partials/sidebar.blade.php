@@ -41,7 +41,7 @@
 
           <li {{ Request::is('campaign/*') ? 'class="menuitem-active"' : '' }}>
               <a class='tp-link {{ Request::is('campaign/*') ? 'class="active"' : '' }}' href='{{ url('campaign') }}'>
-                  <i data-feather="shuffle"></i>
+                  <i data-feather="shopping-bag"></i>
                   <span> Campaign </span>
               </a>
           </li>

@@ -366,8 +366,8 @@ class ComposerStaticInit7ad58c34fa1785b4720c8698b5dd44ff
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -403,13 +403,8 @@ class ComposerStaticInit7ad58c34fa1785b4720c8698b5dd44ff
         ),
         'Nette\\' => 
         array (
-<<<<<<< HEAD
             0 => __DIR__ . '/..' . '/nette/utils/src',
             1 => __DIR__ . '/..' . '/nette/schema/src',
-=======
-            0 => __DIR__ . '/..' . '/nette/schema/src',
-            1 => __DIR__ . '/..' . '/nette/utils/src',
->>>>>>> 504888ed68f0d2fddc4d036c964653a41ef5c437
         ),
         'Monolog\\' => 
         array (

@@ -48,7 +48,7 @@ return array(
     'Psy\\' => array($vendorDir . '/psy/psysh/src'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
-    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src', $vendorDir . '/psr/http-factory/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'Psr\\EventDispatcher\\' => array($vendorDir . '/psr/event-dispatcher/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
@@ -57,11 +57,7 @@ return array(
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'NunoMaduro\\Collision\\' => array($vendorDir . '/nunomaduro/collision/src'),
-<<<<<<< HEAD
     'Nette\\' => array($vendorDir . '/nette/utils/src', $vendorDir . '/nette/schema/src'),
-=======
-    'Nette\\' => array($vendorDir . '/nette/schema/src', $vendorDir . '/nette/utils/src'),
->>>>>>> 504888ed68f0d2fddc4d036c964653a41ef5c437
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Mockery\\' => array($vendorDir . '/mockery/mockery/library/Mockery'),
     'League\\Uri\\' => array($vendorDir . '/league/uri-interfaces', $vendorDir . '/league/uri'),

@@ -1,12 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\YajraBrandController;
+use App\Http\Controllers\PerbandinganController;
 use App\Http\Controllers\YajraCampaignController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\YajraPerbandinganController;
 
 
 // auth login manual
@@ -39,6 +41,16 @@ Route::post('/campaign/create', [CampaignController::class, 'proses_create'])->n
 Route::get('/campaign/{id}/edit', [CampaignController::class, 'edit'])->name('campaign.edit');
 Route::put('/campaign/{id}', [CampaignController::class, 'update'])->name('campaign.update');
 Route::delete('/campaign/{id}', [CampaignController::class, 'hapus'])->name('campaign.hapus');
+
+// perbandingan
+Route::get('/perbandingan', [PerbandinganController::class, 'index'])->name('perbandingan.index');
+Route::post('/perbandingan', [PerbandinganController::class, 'perbandingan'])->name('perbandingan.post');
+Route::post('/perbandingan/ajax', [YajraPerbandinganController::class, 'tampil_data'])->name('perbandingan.ajax');
+Route::get('/perbandingan/create', [PerbandinganController::class, 'create'])->name('perbandingan.create');
+Route::post('/perbandingan/create', [PerbandinganController::class, 'proses_create'])->name('perbandingan.proses_create');
+Route::get('/perbandingan/{id}/edit', [PerbandinganController::class, 'edit'])->name('perbandingan.edit');
+Route::put('/perbandingan/{id}', [PerbandinganController::class, 'update'])->name('perbandingan.update');
+Route::delete('/perbandingan/{id}', [PerbandinganController::class, 'hapus'])->name('perbandingan.hapus');
 
 
 // logout
