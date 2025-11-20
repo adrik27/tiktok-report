@@ -33,7 +33,6 @@ return new class extends Migration
             $table->integer('gross_revenue')->nullable();
             $table->integer('roi')->nullable();
 
-            $table->text('files')->nullable();
             $table->date('tanggal')->nullable();
 
             $table->timestamps();

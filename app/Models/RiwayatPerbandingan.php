@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\CampaignMetric;
+use App\Models\Perbandingan;
 use Illuminate\Database\Eloquent\Model;
 
 class RiwayatPerbandingan extends Model
 {
     protected $table = 'riwayat_perbandingans';
     protected $guarded = ['id'];
-    public function metrics()
+    public function Perbandingan()
     {
-        return $this->belongsTo(CampaignMetric::class, 'campaign_metrics_id', 'id');
+        return $this->belongsTo(Perbandingan::class, 'perbandingan_id', 'id');
     }
 }

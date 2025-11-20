@@ -16,7 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('brand_id');
             $table->date('tanggal_awal');
             $table->date('tanggal_akhir');
-            $table->unsignedBigInteger('user_id'); // jika perbandingan per-user
+            $table->unsignedBigInteger('user_id');
+
+            $table->text('files')->nullable();
+            $table->text('summary')->nullable();
+            $table->text('planning')->nullable();
+
             $table->timestamps();
 
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');

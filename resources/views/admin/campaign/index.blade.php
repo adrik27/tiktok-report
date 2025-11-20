@@ -91,7 +91,6 @@
                                     <th>Cost/Order</th>
                                     <th>Gross Revenue</th>
                                     <th>ROI</th>
-                                    <th>Files</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -119,7 +118,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#campaignTable').DataTable({
+            const table = $('#campaignTable').DataTable({
                 serverSide: true,
                 responsive: false,
                 ajax: {
@@ -206,12 +205,6 @@
                     {
                         data: 'roi',
                         name: 'roi'
-                    },
-                    {
-                        data: 'files',
-                        name: 'files',
-                        orderable: false,
-                        searchable: false
                     },
                     {
                         data: 'action',

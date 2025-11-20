@@ -15,18 +15,18 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('perbandingan_id');
 
-            $table->date('tanggal');
+            $table->decimal('cost')->nullable();
             $table->integer('impression')->nullable();
             $table->integer('click')->nullable();
+            $table->decimal('cpc')->nullable();
             $table->integer('page_view')->nullable();
+            $table->decimal('cpv')->nullable();
             $table->integer('initiate')->nullable();
-            $table->decimal('cost', 12, 2)->nullable();
 
             // metrik turunan
-            $table->decimal('ctr', 8, 2)->nullable();
-            $table->decimal('cpc', 12, 2)->nullable();
-            $table->decimal('cpv', 12, 2)->nullable();
+            $table->decimal('ctr', 12, 2)->nullable();
             $table->decimal('cost_initiate', 12, 2)->nullable();
+            $table->decimal('convertion_rate', 12, 2)->nullable();
 
             $table->timestamps();
 

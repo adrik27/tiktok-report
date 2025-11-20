@@ -65,18 +65,7 @@ class CampaignController extends Controller
             }
 
 
-            if ($request->hasFile('files')) {
-                $cariBrand = Brand::where('id', $request->brand_id)->first();
-                $image = $request->file('files');
-                $imageContents = file_get_contents($image->getRealPath());
-                $fileName = 'campaign/' . $request->id . '_' . $cariBrand->nama . '.jpg';
-                Storage::disk('public')->put($fileName, $imageContents);
-                $localPath = '/storage/' . $fileName;
-            }
-
-
             $createCampaign = CampaignMetric::create([
-
                 'user_id'               => Auth::id(),
                 'tanggal'               => now(),
                 'brand_id'              => $request->brand_id,
@@ -97,8 +86,6 @@ class CampaignController extends Controller
                 'cost_per_order'        => $request->cost_per_order ?? 0,
                 'gross_revenue'         => $request->gross_revenue ?? 0,
                 'roi'                   => $request->roi ?? 0,
-
-                'files'                 => $localPath ?? null,
             ]);
 
             // Kembalikan response JSON untuk AJAX
@@ -144,19 +131,7 @@ class CampaignController extends Controller
                 $cost = 0;
             }
 
-            if ($request->hasFile('files')) {
-                $cariBrand = Brand::where('id', $request->brand_id)->first();
-                $image = $request->file('files');
-                $imageContents = file_get_contents($image->getRealPath());
-                $fileName = 'campaign/' . $request->id . '_' . $cariBrand->nama . '.jpg';
-                Storage::disk('public')->put($fileName, $imageContents);
-                $localPath = '/storage/' . $fileName;
-            } else {
-                $localPath = $request->filesOld;
-            }
-
             $createCampaign = $campaign->update([
-
                 'user_id'               => Auth::id(),
                 'tanggal'               => now(),
                 'brand_id'              => $request->brand_id,
@@ -177,8 +152,6 @@ class CampaignController extends Controller
                 'cost_per_order'        => $request->cost_per_order ?? 0,
                 'gross_revenue'         => $request->gross_revenue ?? 0,
                 'roi'                   => $request->roi ?? 0,
-
-                'files'                 => $localPath ?? 0,
             ]);
 
             // Kembalikan response JSON untuk AJAX

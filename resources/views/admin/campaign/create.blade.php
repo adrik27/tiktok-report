@@ -26,11 +26,11 @@
                     @endif
 
                     <input type="hidden" id="campaign-id" name="id" value={{ isset($campaign) ? $campaign->id : '' }}>
-                    <input type="hidden" name="filesOld" value={{ isset($campaign) ? $campaign->files : '' }}>
+                    {{-- <input type="hidden" name="filesOld" value={{ isset($campaign) ? $campaign->files : '' }}> --}}
 
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-lg-4 col-sm-12">
+                            <div class="col-lg-6 col-sm-12">
                                 <div class="mb-3">
                                     <label class="form-label">Brand</label>
                                     <select name="brand_id" id="brand_id" class="form-control brand-select" required>
@@ -43,7 +43,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-12">
+                            <div class="col-lg-6 col-sm-12">
                                 <div class="mb-3">
                                     <label class="form-label">Platform</label>
                                     <select name="platform" id="platform" class="form-control platform-select" required
@@ -59,13 +59,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Bukti Foto</label>
-                                    <input type="file" name="files" id="files" class="form-control"
-                                        accept="image/*">
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
@@ -153,9 +147,8 @@
                                 <div class="mb-3">
                                     <label class="form-label">Initiate</label>
                                     <input type="number"
-                                        class="form-control tiktok @error('initiate') is-invalid @enderror"
-                                        name="initiate" placeholder="Initiate" value="{{ $campaign->initiate ?? '' }}"
-                                        required>
+                                        class="form-control tiktok @error('initiate') is-invalid @enderror" name="initiate"
+                                        placeholder="Initiate" value="{{ $campaign->initiate ?? '' }}" required>
                                     @error('initiate')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -356,24 +349,23 @@
             var platform = $('#platform').val();
 
             if (platform == 'gmvmax') {
-                // Tampilkan GMV MAX, sembunyikan TIKTOK
+
                 $('.gmvmax').show();
                 $('.tiktok').hide();
 
-                // Nonaktifkan required di TikTok
-                $('.tiktok input.tiktok').prop('required', false);
-                // Aktifkan required di GMV MAX
-                $('.gmvmax input').prop('required', true);
+                // hapus required seluruh input di tiktok
+                $('.tiktok').find('input, select, textarea').prop('required', false);
+
+                // aktifkan required seluruh input di gmvmax
+                $('.gmvmax').find('input, select, textarea').prop('required', true);
 
             } else {
-                // Tampilkan TIKTOK, sembunyikan GMV MAX
+
                 $('.gmvmax').hide();
                 $('.tiktok').show();
 
-                // Aktifkan required di TikTok
-                $('.tiktok input.tiktok').prop('required', true);
-                // Nonaktifkan required di GMV MAX
-                $('.gmvmax input').prop('required', false);
+                $('.tiktok').find('input, select, textarea').prop('required', true);
+                $('.gmvmax').find('input, select, textarea').prop('required', false);
             }
         }
     </script>

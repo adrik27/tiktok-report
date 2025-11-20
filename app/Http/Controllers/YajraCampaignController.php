@@ -25,10 +25,6 @@ class YajraCampaignController
                 ->addColumn('tanggal', function ($row) {
                     return date('d M Y', strtotime($row->tanggal));
                 })
-                ->addColumn('files', function ($row) {
-                    $url = url($row->files);
-                    return '<a href="' . $url . '" target="_blank">' . e($row->Brand->nama) . '</a>';
-                })
                 ->addColumn('action', function ($row) {
                     return '
                         <div class="d-flex justify-content-center gap-2">
@@ -45,7 +41,7 @@ class YajraCampaignController
                 })
 
 
-                ->rawColumns(['action', 'tanggal', 'nama', 'files'])
+                ->rawColumns(['action', 'tanggal', 'nama'])
                 ->make(true);
         }
     }

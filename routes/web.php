@@ -46,10 +46,9 @@ Route::delete('/campaign/{id}', [CampaignController::class, 'hapus'])->name('cam
 Route::get('/perbandingan', [PerbandinganController::class, 'index'])->name('perbandingan.index');
 Route::post('/perbandingan', [PerbandinganController::class, 'perbandingan'])->name('perbandingan.post');
 Route::post('/perbandingan/ajax', [YajraPerbandinganController::class, 'tampil_data'])->name('perbandingan.ajax');
-Route::get('/perbandingan/create', [PerbandinganController::class, 'create'])->name('perbandingan.create');
 Route::post('/perbandingan/create', [PerbandinganController::class, 'proses_create'])->name('perbandingan.proses_create');
-Route::get('/perbandingan/{id}/edit', [PerbandinganController::class, 'edit'])->name('perbandingan.edit');
-Route::put('/perbandingan/{id}', [PerbandinganController::class, 'update'])->name('perbandingan.update');
+Route::get('/perbandingan/{id}/detail', [PerbandinganController::class, 'detail'])->name('perbandingan.detail');
+Route::post('/perbandingan/detail/ajax', [YajraPerbandinganController::class, 'tampil_data_detail'])->name('perbandingan.detail.ajax');
 Route::delete('/perbandingan/{id}', [PerbandinganController::class, 'hapus'])->name('perbandingan.hapus');
 
 
