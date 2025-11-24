@@ -70,6 +70,7 @@ class CampaignController extends Controller
                 'tanggal'               => now(),
                 'brand_id'              => $request->brand_id,
                 'platform'              => $request->platform,
+                'jenis_campaign'        => $request->jenis_campaign,
 
                 'cost'                  => $cost,
                 'cpm'                   => $request->cpm ?? 0,
@@ -136,6 +137,7 @@ class CampaignController extends Controller
                 'tanggal'               => now(),
                 'brand_id'              => $request->brand_id,
                 'platform'              => $request->platform,
+                'jenis_campaign'        => $request->jenis_campaign,
 
                 'cost'                  => $cost,
                 'cpm'                   => $request->cpm ?? 0,

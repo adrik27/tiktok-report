@@ -62,8 +62,23 @@ class YajraPerbandinganController
     {
         if ($post->ajax()) {
             $id = $post->perbandingan_id;
+            $riwayat_perbandingan = RiwayatPerbandingan::where('perbandingan_id', $id)
+                ->where('platform', 'tiktok')
+                ->with('Perbandingan')
+                ->get();
+
+            return DataTables::of($riwayat_perbandingan)
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
+    public function tampil_data_detail_gmv(Request $post)
+    {
+        if ($post->ajax()) {
+            $id = $post->perbandingan_id;
 
             $riwayat_perbandingan = RiwayatPerbandingan::where('perbandingan_id', $id)
+                ->where('platform', 'gmvmax')
                 ->with('Perbandingan')
                 ->get();
 

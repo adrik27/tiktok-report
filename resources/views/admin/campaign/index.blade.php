@@ -74,6 +74,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Tgl Buat</th>
+                                    <th>Jenis Campaign</th>
                                     <th>Nama Brand</th>
                                     <th>Platform</th>
                                     <th>Cost</th>
@@ -137,6 +138,10 @@
                     {
                         data: 'tanggal',
                         name: 'tanggal'
+                    },
+                    {
+                        data: 'jenis_campaign',
+                        name: 'jenis_campaign'
                     },
                     {
                         data: 'nama',

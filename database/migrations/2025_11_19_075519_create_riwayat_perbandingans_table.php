@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('riwayat_perbandingans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('perbandingan_id');
+            $table->enum('platform', ['tiktok', 'gmvmax']);
+            $table->string('jenis_campaign');
 
             $table->decimal('cost')->nullable();
             $table->integer('impression')->nullable();

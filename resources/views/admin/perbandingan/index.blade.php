@@ -68,6 +68,27 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3">
+                                                <label class="form-label">Platform</label>
+                                                <select name="platform" id="platform" class="form-control platform-select"
+                                                    required>
+                                                    <option value="tiktok">
+                                                        Tiktok
+                                                    </option>
+                                                    <option value="gmvmax">
+                                                        GMV MAX
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Jenis Campaign</label>
+                                                <select name="jenis_campaign" id="jenis_campaign"
+                                                    class="form-control jenis-campaign-select" required>
+                                                    <option value="reach">Reach</option>
+                                                    <option value="initiate">Initiate</option>
+                                                    <option value="videoview">Video View</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="tanggal-awal" class="form-label">Tanggal Awal</label>
                                                 <input type="date" class="form-control" id="tanggal-awal"
                                                     name="tanggal_awal" max="{{ date('Y-m-d') }}" format="d-m-Y" required>

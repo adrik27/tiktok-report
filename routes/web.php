@@ -49,6 +49,7 @@ Route::post('/perbandingan/ajax', [YajraPerbandinganController::class, 'tampil_d
 Route::post('/perbandingan/create', [PerbandinganController::class, 'proses_create'])->name('perbandingan.proses_create');
 Route::get('/perbandingan/{id}/detail', [PerbandinganController::class, 'detail'])->name('perbandingan.detail');
 Route::post('/perbandingan/detail/ajax', [YajraPerbandinganController::class, 'tampil_data_detail'])->name('perbandingan.detail.ajax');
+Route::post('/perbandingan/detail/gmv/ajax', [YajraPerbandinganController::class, 'tampil_data_detail_gmv'])->name('perbandingan.detail_gmv.ajax');
 Route::delete('/perbandingan/{id}', [PerbandinganController::class, 'hapus'])->name('perbandingan.hapus');
 
 

@@ -35,94 +35,133 @@ class PerbandinganController
             'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
         ]);
 
-        $cekData = Perbandingan::where('brand_id', $request->brand_id)
+        // cek apakah ada metric dalam rentang tanggal
+        $cekMetrik = CampaignMetric::where('brand_id', $request->brand_id)
+            ->where('user_id', Auth::id())
+            ->where('platform', $request->platform)
+            ->where('jenis_campaign', $request->jenis_campaign)
+            ->whereBetween('tanggal', [$request->tanggal_awal, $request->tanggal_akhir])
+            ->exists();
+
+        if (!$cekMetrik) {
+            return back()->with('error', 'Data campaign tidak ada !');
+        }
+
+        // cek apakah sudah pernah dibuat
+        $perbandingan = Perbandingan::where('brand_id', $request->brand_id)
             ->where('tanggal_awal', $request->tanggal_awal)
             ->where('tanggal_akhir', $request->tanggal_akhir)
             ->where('user_id', Auth::id())
             ->first();
 
-        if ($cekData) {
-            return redirect()->back()->with('error', 'Data perbandingan sudah ada');
-        }
-
+        // handle upload
+        $localPath = null;
         if ($request->hasFile('files')) {
-            $cariBrand = Brand::where('id', $request->brand_id)->first();
-            $image = $request->file('files');
-            $imageContents = file_get_contents($image->getRealPath());
-            $fileName = 'perbandingan/' . rand(1000, 9999) . '_' . $cariBrand->nama . '.jpg';
-            Storage::disk('public')->put($fileName, $imageContents);
+            $brand = Brand::find($request->brand_id);
+            $file = $request->file('files');
+            $fileName = 'perbandingan/' . time() . '_' . $brand->nama . '.' . $file->getClientOriginalExtension();
+            Storage::disk('public')->put($fileName, file_get_contents($file));
             $localPath = '/storage/' . $fileName;
         }
 
-        // 1. simpan ke tabel perbandingans
-        $perbandingan = Perbandingan::create([
-            'brand_id'      => $request->brand_id,
-            'tanggal_awal'  => $request->tanggal_awal,
-            'tanggal_akhir' => $request->tanggal_akhir,
-            'user_id'       => Auth::id(),
-
-            'files'         => $localPath ?? null,
-            'summary'       => $request->summary ?? null,
-            'planning'      => $request->planning ?? null,
-        ]);
-
-        // 2. AMBIL & GROUP BY TANGGAL
-        $metrics = CampaignMetric::selectRaw("
-                tanggal,
-                SUM(cost) as total_cost,
-                SUM(impression) as total_impression,
-                SUM(klik) as total_click,
-                SUM(cpc) as total_cpc,
-                SUM(page_view) as total_page_view,
-                SUM(cpv) as total_cpv,
-                SUM(initiate) as total_initiate
-            ")
-            ->where('brand_id', $request->brand_id)
-            ->whereBetween('tanggal', [$request->tanggal_awal, $request->tanggal_akhir])
-            ->groupBy('tanggal')
-            ->orderBy('tanggal')
-            ->get();
-
-        // 3. SIMPAN HASIL YANG SUDAH DIJUMLAHKAN
-        foreach ($metrics as $m) {
-            // hitung metrik turunan
-            if ($m->total_impression > 0 && $m->total_click > 0) {
-                $ctr = round(($m->total_click / $m->total_impression) * 100, 2);
-            } else {
-                $ctr = 0;
-            }
-
-            if ($m->total_cost > 0 && $m->total_initiate > 0) {
-                $cost_initiate = round(($m->total_cost / $m->total_initiate) * 100, 2);
-            } else {
-                $cost_initiate = 0;
-            }
-
-            if ($m->total_click > 0 && $m->total_initiate > 0) {
-                $convertion_rate = round(($m->total_click / $m->total_initiate) * 100, 2);
-            } else {
-                $convertion_rate = 0;
-            }
-
-            // simpan ke tabel perbandingan_results
-            RiwayatPerbandingan::create([
-                'perbandingan_id'   => $perbandingan->id,
-                'cost'              => $m->total_cost,
-                'impression'        => $m->total_impression,
-                'click'             => $m->total_click,
-                'cpc'               => $m->total_cpc,
-                'page_view'         => $m->total_page_view,
-                'cpv'               => $m->total_cpv,
-                'initiate'          => $m->total_initiate,
-
-                'ctr'               => $ctr,
-                'cost_initiate'     => $cost_initiate,
-                'convertion_rate'   => $convertion_rate,
+        // jika belum ada perbandingan → buat baru
+        if (!$perbandingan) {
+            $perbandingan = Perbandingan::create([
+                'brand_id' => $request->brand_id,
+                'tanggal_awal' => $request->tanggal_awal,
+                'tanggal_akhir' => $request->tanggal_akhir,
+                'user_id' => Auth::id(),
+                'files' => $localPath,
+                'summary' => $request->summary,
+                'planning' => $request->planning,
             ]);
         }
 
-        return redirect()->back()->with('success', 'Perbandingan berhasil dibuat!');
+        if ($request->platform == 'tiktok') {
+            // ambil metrik per tanggal
+            $metrics = CampaignMetric::selectRaw("
+                    tanggal,
+                    SUM(cost) as total_cost,
+                    SUM(impression) as total_impression,
+                    SUM(klik) as total_click,
+                    SUM(cpc) as total_cpc,
+                    SUM(page_view) as total_page_view,
+                    SUM(cpv) as total_cpv,
+                    SUM(initiate) as total_initiate
+                ")
+                ->where('brand_id', $perbandingan->brand_id)
+                ->where('jenis_campaign', $request->jenis_campaign)
+                ->where('platform', 'tiktok')
+                ->whereBetween('tanggal', [$perbandingan->tanggal_awal, $perbandingan->tanggal_akhir])
+                ->groupBy('tanggal')
+                ->orderBy('tanggal')
+                ->get();
+
+            // simpan riwayat
+            foreach ($metrics as $m) {
+
+                $ctr = ($m->total_impression > 0)
+                    ? round(($m->total_click / $m->total_impression) * 100, 2)
+                    : 0;
+
+                $cost_initiate = ($m->total_initiate > 0)
+                    ? round($m->total_cost / $m->total_initiate, 2)
+                    : 0;
+
+                $conversion_rate = ($m->total_click > 0)
+                    ? round(($m->total_initiate / $m->total_click) * 100, 2)
+                    : 0;
+
+                RiwayatPerbandingan::create([
+                    'perbandingan_id' => $perbandingan->id,
+                    'cost' => $m->total_cost,
+                    'impression' => $m->total_impression,
+                    'click' => $m->total_click,
+                    'cpc' => $m->total_cpc,
+                    'page_view' => $m->total_page_view,
+                    'cpv' => $m->total_cpv,
+                    'initiate' => $m->total_initiate,
+                    'ctr' => $ctr,
+                    'cost_initiate' => $cost_initiate,
+                    'convertion_rate' => $conversion_rate,
+                ]);
+            }
+        } else {
+            // ambil metrik per tanggal
+            $metrics = CampaignMetric::selectRaw("
+                    tanggal,
+                    SUM(cost) as total_cost,
+                    SUM(order) as total_order,
+                    SUM(cost_per_order) as total_cost_per_order,
+                    SUM(gross_revenue) as total_gross_revenue,
+                    SUM(roi) as total_roi,
+                ")
+                ->where('brand_id', $perbandingan->brand_id)
+                ->where('jenis_campaign', $request->jenis_campaign)
+                ->where('platform', 'gmvmax')
+                ->whereBetween('tanggal', [$perbandingan->tanggal_awal, $perbandingan->tanggal_akhir])
+                ->groupBy('tanggal')
+                ->orderBy('tanggal')
+                ->get();
+
+            // simpan riwayat
+            foreach ($metrics as $m) {
+
+                RiwayatPerbandingan::create([
+                    'perbandingan_id' => $perbandingan->id,
+                    'cost' => $m->total_cost,
+                    'order' => $m->total_order,
+                    'cost_per_order' => $m->total_cost_per_order,
+                    'gross_revenue' => $m->total_gross_revenue,
+                    'roi' => $m->total_roi
+                ]);
+            }
+        }
+
+
+        return back()->with('success', 'Perbandingan berhasil dibuat!');
     }
+
 
     public function hapus($id)
     {

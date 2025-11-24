@@ -48,14 +48,25 @@
                                     <label class="form-label">Platform</label>
                                     <select name="platform" id="platform" class="form-control platform-select" required
                                         onchange="Platform()">
-                                        <option disabled {{ !isset($campaign) ? 'selected' : '' }}>-- Pilih Platform Dahulu
-                                            --</option>
+                                        {{-- <option disabled {{ !isset($campaign) ? 'selected' : '' }}>-- Pilih Platform Dahulu
+                                            --</option> --}}
                                         <option value="tiktok"
                                             {{ isset($campaign) && $campaign->platform == 'tiktok' ? 'selected' : '' }}>
                                             Tiktok</option>
                                         <option value="gmvmax"
                                             {{ isset($campaign) && $campaign->platform == 'gmvmax' ? 'selected' : '' }}>GMV
                                             MAX</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 kolom_jenis_campaign">
+                                <div class="mb-3">
+                                    <label class="form-label">Jenis Campaign</label>
+                                    <select name="jenis_campaign" id="jenis_campaign"
+                                        class="form-control jenis-campaign-select" required>
+                                        <option value="reach">Reach</option>
+                                        <option value="initiate">Initiate</option>
+                                        <option value="videoview">Video View</option>
                                     </select>
                                 </div>
                             </div>
@@ -147,8 +158,9 @@
                                 <div class="mb-3">
                                     <label class="form-label">Initiate</label>
                                     <input type="number"
-                                        class="form-control tiktok @error('initiate') is-invalid @enderror" name="initiate"
-                                        placeholder="Initiate" value="{{ $campaign->initiate ?? '' }}" required>
+                                        class="form-control tiktok @error('initiate') is-invalid @enderror"
+                                        name="initiate" placeholder="Initiate" value="{{ $campaign->initiate ?? '' }}"
+                                        required>
                                     @error('initiate')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -282,6 +294,7 @@
         $(document).ready(function() {
             $('.brand-select').select2();
             $('.platform-select').select2();
+            $('.jenis-campaign-select').select2();
 
             Platform(); // Pastikan kondisi awal sesuai pilihan
             $('#platform').on('change', Platform);
@@ -349,7 +362,7 @@
             var platform = $('#platform').val();
 
             if (platform == 'gmvmax') {
-
+                $('.kolom_jenis_campaign').hide();
                 $('.gmvmax').show();
                 $('.tiktok').hide();
 
@@ -360,7 +373,7 @@
                 $('.gmvmax').find('input, select, textarea').prop('required', true);
 
             } else {
-
+                $('.kolom_jenis_campaign').show();
                 $('.gmvmax').hide();
                 $('.tiktok').show();
 

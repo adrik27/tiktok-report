@@ -30,7 +30,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h5 class="card-title mb-0">Detail Perbandingan
+                        <h5 class="card-title mb-0">TIKTOK -
                             {{ ucfirst($RiwayatPerbandingan[0]->Perbandingan->Brand->nama) }} </h5>
                     </div>
                 </div>
@@ -54,6 +54,13 @@
                                 </tr>
                             </thead>
                         </table>
+                    </div>
+                </div>
+
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h5 class="card-title mb-0">GMV MAX -
+                            {{ ucfirst($RiwayatPerbandingan[0]->Perbandingan->Brand->nama) }} </h5>
                     </div>
                 </div>
 
@@ -153,7 +160,7 @@
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: "{{ route('perbandingan.detail.ajax') }}",
+                    url: "{{ route('perbandingan.detail_gmv.ajax') }}",
                     type: "POST",
                     data: function(d) {
                         d._token = $('meta[name="csrf-token"]').attr('content');
