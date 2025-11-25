@@ -47,8 +47,10 @@ class PerbandinganController
 
         // cek apakah sudah pernah dibuat
         $perbandingan = Perbandingan::where('brand_id', $request->brand_id)
-            ->where('tanggal_awal', $request->tanggal_awal)
-            ->where('tanggal_akhir', $request->tanggal_akhir)
+            ->where(function ($q) use ($request) {
+                $q->where('tanggal_awal', '<=', $request->tanggal_akhir)
+                    ->where('tanggal_akhir', '>=', $request->tanggal_awal);
+            })
             ->where('user_id', Auth::id())
             ->first();
 
