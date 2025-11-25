@@ -109,6 +109,8 @@
     <!-- App js-->
     <script src="{{ url('templates/assets/js/app.js') }}"></script>
 
+
+
     @yield('js')
 </body>
 

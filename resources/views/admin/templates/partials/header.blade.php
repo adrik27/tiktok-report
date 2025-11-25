@@ -1,7 +1,7 @@
   <div class="d-flex justify-content-between">
       <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
           <li>
-              <button class="button-toggle-menu nav-link">
+              <button class="button-toggle-menu nav-link" id="toggleSidebar">
                   <i data-feather="menu" class="noti-icon"></i>
               </button>
           </li>
@@ -66,3 +66,5 @@
           </li>
       </ul>
   </div>
+
+

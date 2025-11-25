@@ -70,7 +70,7 @@ class CampaignController extends Controller
                 'tanggal'               => now(),
                 'brand_id'              => $request->brand_id,
                 'platform'              => $request->platform,
-                'jenis_campaign'        => $request->jenis_campaign,
+                'jenis_campaign'        => $request->platform == 'tiktok' ? $request->jenis_campaign : null,
 
                 'cost'                  => $cost,
                 'cpm'                   => $request->cpm ?? 0,

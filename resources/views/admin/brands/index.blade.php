@@ -2,6 +2,12 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        #perbandinganTable {
+            width: 100% !important;
+            table-layout: auto !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -95,9 +101,34 @@
 
     <script>
         $(document).ready(function() {
+            $('#toggleSidebar').on('click', function() {
+                setTimeout(function() {
+                    table.columns.adjust().draw();
+                }, 300);
+            });
+
             const table = $('#brandsTable').DataTable({
                 serverSide: true,
-                ajax: "{{ route('brands.ajax') }}", // route untuk data AJAX
+                scrollX: true, // 👈 ADD INI
+                autoWidth: false,
+                ajax: "{{ route('brands.ajax') }}",
+                columnDefs: [{
+                        width: "40px !important",
+                        targets: 0
+                    }, // No
+                    {
+                        width: "150px !important",
+                        targets: 1
+                    }, // nama
+                    {
+                        width: "150px !important",
+                        targets: 2
+                    }, // tanggal
+                    {
+                        width: "100px !important",
+                        targets: 3
+                    }, // Aksi
+                ],
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',

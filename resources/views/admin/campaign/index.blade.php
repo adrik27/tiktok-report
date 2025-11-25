@@ -69,7 +69,7 @@
 
                     <!-- HANYA tabel yang di-scroll -->
                     <div class="table-wrapper" style="overflow-x: auto;">
-                        <table id="campaignTable" class="table table-striped table-bordered" style="min-width: 1500px;">
+                        <table id="campaignTable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>No</th>

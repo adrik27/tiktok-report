@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('brand_id');
             $table->foreignId('user_id');
             $table->enum('platform', ['tiktok', 'gmvmax']);
-            $table->string('jenis_campaign');
+            $table->string('jenis_campaign')->nullable();
 
             $table->integer('cost')->nullable();
             $table->integer('cpm')->nullable();

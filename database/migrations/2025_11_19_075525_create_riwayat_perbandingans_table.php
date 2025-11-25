@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('riwayat_perbandingans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('perbandingan_id');
+            $table->date('tanggal');
             $table->enum('platform', ['tiktok', 'gmvmax']);
-            $table->string('jenis_campaign');
+            $table->string('jenis_campaign')->nullable();
 
             $table->decimal('cost')->nullable();
+
+            // tiktok metrics
             $table->integer('impression')->nullable();
             $table->integer('click')->nullable();
             $table->decimal('cpc')->nullable();
@@ -25,10 +28,16 @@ return new class extends Migration
             $table->decimal('cpv')->nullable();
             $table->integer('initiate')->nullable();
 
-            // metrik turunan
+            // tiktok metrik turunan
             $table->decimal('ctr', 12, 2)->nullable();
             $table->decimal('cost_initiate', 12, 2)->nullable();
             $table->decimal('convertion_rate', 12, 2)->nullable();
+
+            // gmvmax metrics
+            $table->integer('order')->nullable();
+            $table->integer('cost_per_order')->nullable();
+            $table->integer('gross_revenue')->nullable();
+            $table->integer('roi')->nullable();
 
             $table->timestamps();
 

@@ -2,6 +2,12 @@
 
 @section('link')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        #perbandinganTable {
+            width: 100% !important;
+            table-layout: auto !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -67,7 +73,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="mb-3">
+                                            {{-- <div class="mb-3">
                                                 <label class="form-label">Platform</label>
                                                 <select name="platform" id="platform" class="form-control platform-select"
                                                     required>
@@ -87,7 +93,7 @@
                                                     <option value="initiate">Initiate</option>
                                                     <option value="videoview">Video View</option>
                                                 </select>
-                                            </div>
+                                            </div> --}}
                                             <div class="mb-3">
                                                 <label for="tanggal-awal" class="form-label">Tanggal Awal</label>
                                                 <input type="date" class="form-control" id="tanggal-awal"
@@ -137,8 +143,7 @@
 
                 <div class="card-body">
                     <div class="table-wrapper" style="overflow-x: auto;">
-                        <table id="perbandinganTable" class="table table-striped table-bordered"
-                            style="min-width: 1500px;">
+                        <table id="perbandinganTable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -165,9 +170,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
+            $('#toggleSidebar').on('click', function() {
+                setTimeout(function() {
+                    table.columns.adjust().draw();
+                }, 300);
+            });
             const table = $('#perbandinganTable').DataTable({
                 serverSide: true,
                 responsive: false,
+                scrollX: true, // 👈 ADD INI
+                autoWidth: false,
                 ajax: {
                     url: "{{ route('perbandingan.ajax') }}",
                     type: "POST",
@@ -175,6 +187,31 @@
                         d._token = $('meta[name="csrf-token"]').attr('content');
                     }
                 },
+                columnDefs: [{
+                        width: "40px !important",
+                        targets: 0
+                    }, // No
+                    {
+                        width: "120px !important",
+                        targets: 1
+                    }, // Bukti
+                    {
+                        width: "150px !important",
+                        targets: 2
+                    }, // Nama Brand
+                    {
+                        width: "120px !important",
+                        targets: 3
+                    }, // Tanggal Awal
+                    {
+                        width: "120px !important",
+                        targets: 4
+                    }, // Tanggal Akhir
+                    {
+                        width: "100px !important",
+                        targets: 5
+                    }, // Aksi
+                ],
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
