@@ -48,8 +48,12 @@ Route::post('/perbandingan', [PerbandinganController::class, 'perbandingan'])->n
 Route::post('/perbandingan/ajax', [YajraPerbandinganController::class, 'tampil_data'])->name('perbandingan.ajax');
 Route::post('/perbandingan/create', [PerbandinganController::class, 'proses_create'])->name('perbandingan.proses_create');
 Route::get('/perbandingan/{id}/detail', [PerbandinganController::class, 'detail'])->name('perbandingan.detail');
-Route::post('/perbandingan/detail/ajax', [YajraPerbandinganController::class, 'tampil_data_detail'])->name('perbandingan.detail.ajax');
+Route::post('/perbandingan/detail/initiate/ajax', [YajraPerbandinganController::class, 'tampil_data_detail_initiate'])->name('perbandingan.detail.initiate.ajax');
+Route::post('/perbandingan/detail/reach/ajax', [YajraPerbandinganController::class, 'tampil_data_detail_reach'])->name('perbandingan.detail.reach.ajax');
+Route::post('/perbandingan/detail/videoview/ajax', [YajraPerbandinganController::class, 'tampil_data_detail_videoview'])->name('perbandingan.detail.videoview.ajax');
 Route::post('/perbandingan/detail/gmv/ajax', [YajraPerbandinganController::class, 'tampil_data_detail_gmv'])->name('perbandingan.detail_gmv.ajax');
+Route::get('/perbandingan/{id}/cetak', [PerbandinganController::class, 'cetak'])->name('perbandingan.cetak');
+Route::post('/perbandingan/{id}/update', [PerbandinganController::class, 'update'])->name('perbandingan.update');
 Route::delete('/perbandingan/{id}', [PerbandinganController::class, 'hapus'])->name('perbandingan.hapus');
 
 

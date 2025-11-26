@@ -175,6 +175,7 @@
                     table.columns.adjust().draw();
                 }, 300);
             });
+
             const table = $('#perbandinganTable').DataTable({
                 serverSide: true,
                 responsive: false,

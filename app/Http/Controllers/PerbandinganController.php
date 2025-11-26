@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PerbandinganHelper;
 use App\Models\Brand;
-use App\Models\Perbandingan;
-use Illuminate\Http\Request;
 use App\Models\CampaignMetric;
+use App\Models\Perbandingan;
 use App\Models\RiwayatPerbandingan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,6 +34,7 @@ class PerbandinganController
             'brand_id' => 'required|exists:brands,id',
             'tanggal_awal' => 'required|date',
             'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
+            'files' => 'mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
 
         // cek apakah ada metric dalam rentang tanggal
@@ -173,6 +175,38 @@ class PerbandinganController
         return back()->with('success', 'Perbandingan berhasil dibuat!');
     }
 
+    public function update(Request $request, $id)
+    {
+        $perbandingan = Perbandingan::find($id);
+
+
+        if ($perbandingan) {
+            // handle upload
+            if ($request->hasFile('files')) {
+                $file = $request->file('files');
+                $fileName = 'perbandingan/' . time() . '_' . $perbandingan->Brand->nama . '.' . $file->getClientOriginalExtension();
+                Storage::disk('public')->put($fileName, file_get_contents($file));
+                $localPath = '/storage/' . $fileName;
+            } else {
+                if ($perbandingan->files !== null) {
+                    $localPath = $perbandingan->files;
+                } else {
+                    $localPath = null;
+                }
+            }
+
+            $perbandingan->update([
+                'summary'   => $request->summary,
+                'planning'  => $request->planning,
+                'files'     => $localPath
+            ]);
+
+            return back()->with('success', 'Perbandingan berhasil diupdate!');
+        } else {
+            return back()->with('error', 'Perbandingan gagal diupdate!');
+        }
+    }
+
 
     public function hapus($id)
     {
@@ -198,9 +232,58 @@ class PerbandinganController
             ->with('Perbandingan')
             ->get();
 
+        $count['initiate'] = RiwayatPerbandingan::where('perbandingan_id', $id)
+            ->where('jenis_campaign', 'initiate')->count();
+        $count['videoview'] = RiwayatPerbandingan::where('perbandingan_id', $id)
+            ->where('jenis_campaign', 'videoview')->count();
+        $count['reach'] = RiwayatPerbandingan::where('perbandingan_id', $id)
+            ->where('jenis_campaign', 'reach')->count();
+        $count['gmvmax'] = RiwayatPerbandingan::where('perbandingan_id', $id)
+            ->where('platform', 'gmvmax')->count();
+
         return view('admin.perbandingan.detail', [
-            'title'         => 'Detail Perbandingan',
-            'RiwayatPerbandingan'  => $RiwayatPerbandingan,
+            'title'                 => 'Detail Perbandingan',
+            'RiwayatPerbandingan'   => $RiwayatPerbandingan,
+            'data_count'            => $count,
         ]);
+    }
+
+    public function cetak($id)
+    {
+        $perbandingan = Perbandingan::where('id', $id)->first();
+
+        $initiate    = PerbandinganHelper::getDetail($id, 'initiate', 'tiktok');
+        $reach       = PerbandinganHelper::getDetail($id, 'reach', 'tiktok');
+        $videoview   = PerbandinganHelper::getDetail($id, 'videoview', 'tiktok');
+        $gmv         = PerbandinganHelper::getDetail($id, null, 'gmv');
+
+        // ===== HITUNG FOOTER PERUBAHAN =====
+        $footer = [
+            'initiate'  => PerbandinganHelper::hitungPerubahanFooter($initiate, 'initiate', 'tiktok'),
+            'reach'     => PerbandinganHelper::hitungPerubahanFooter($reach, 'reach', 'tiktok'),
+            'videoview' => PerbandinganHelper::hitungPerubahanFooter($videoview, 'videoview', 'tiktok'),
+            'gmv'       => PerbandinganHelper::hitungPerubahanFooter($gmv, null, 'gmvmax'),
+        ];
+        // dd($footer);
+        $count = [
+            'initiate'  => $initiate->count(),
+            'reach'     => $reach->count(),
+            'videoview' => $videoview->count(),
+            'gmvmax'    => $gmv->count(),
+        ];
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.perbandingan.cetak', [
+            'title'        => 'Cetak Perbandingan',
+            'perbandingan' => $perbandingan,
+            'initiate'     => $initiate,
+            'reach'        => $reach,
+            'videoview'    => $videoview,
+            'gmv'          => $gmv,
+            'data_count'   => $count,
+            'footer'       => $footer,
+        ])->setPaper('A4', 'landscape');
+
+        $name = time() . '_' . date('Y-m-d') . '_' . strtolower($perbandingan->Brand->nama) . '_perbandingan.pdf';
+        return $pdf->stream($name);
     }
 }

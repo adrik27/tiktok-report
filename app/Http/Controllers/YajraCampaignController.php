@@ -25,6 +25,13 @@ class YajraCampaignController
                 ->addColumn('tanggal', function ($row) {
                     return date('d M Y', strtotime($row->tanggal));
                 })
+                ->addColumn('jenis_campaign', function ($row) {
+                    if ($row->jenis_campaign == 'videoview') {
+                        return 'video view';
+                    } else {
+                        return $row->jenis_campaign;
+                    }
+                })
                 ->addColumn('cost', function ($row) {
                     return formatAngka($row->cost);
                 })
@@ -86,7 +93,7 @@ class YajraCampaignController
                 })
 
 
-                ->rawColumns(['action', 'tanggal', 'nama', 'cost', 'cpm', 'impression', 'klik', 'cpc', 'page_view', 'cpv', 'initiate', 'cost_per_initiate', 'result', 'cpr', 'order', 'cost_per_order', 'gross_revenue', 'roi'])
+                ->rawColumns(['action', 'tanggal', 'nama', 'jenis_campaign', 'cost', 'cpm', 'impression', 'klik', 'cpc', 'page_view', 'cpv', 'initiate', 'cost_per_initiate', 'result', 'cpr', 'order', 'cost_per_order', 'gross_revenue', 'roi'])
                 ->make(true);
         }
     }
