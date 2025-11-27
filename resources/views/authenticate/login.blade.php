@@ -59,6 +59,15 @@
 
                                             <div class="row">
                                                 <div class="col-12 mt-2">
+
+                                                    @if (session('error'))
+                                                        <div class="alert alert-danger text-dark">
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="alert" aria-label="Close"></button>
+                                                            {{ session('error') }}
+                                                        </div>
+                                                    @endif
+
                                                     <a href="{{ route('google.login') }}"
                                                         class="btn text-dark border fw-normal d-flex align-items-center justify-content-center">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"

@@ -1,5 +1,35 @@
 @extends('admin.templates.app')
 
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+    <style>
+        /* Buat kolom menyesuaikan isi */
+        #campaignTable {
+            table-layout: auto !important;
+            width: 100% !important;
+        }
+
+        /* Pastikan isi tabel tidak pecah ke baris baru */
+        #campaignTable th,
+        #campaignTable td {
+            white-space: nowrap;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* Biar header tidak terlalu rapat */
+        #campaignTable th {
+            padding: 8px 12px;
+        }
+
+        /* Biar horizontal scroll aktif kalau isi panjang */
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
         <div class="flex-grow-1">
@@ -12,29 +42,23 @@
 
         <!-- Start Earning Reports -->
         <div class="col-md-12 col-xl-12">
-
             <div class="bg-light rounded p-3 mb-3 border">
                 <div class="row gap-2 gap-sm-0">
                     <div class="col-12 col-sm-4">
                         <div class="earnings-section">
                             <div class="d-flex gap-2 align-items-center">
                                 <div class="bg-success-subtle rounded-2 p-1 me-2 border border-dashed border-success">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                        viewbox="0 0 48 48">
-                                        <g fill="none">
-                                            <path d="M0 0h48v48H0z"></path>
-                                            <path fill="#287F71" fill-rule="evenodd"
-                                                d="M24 7a1 1 0 0 0-1 1v3h-1a7 7 0 1 0 0 14h1v10h-1a5 5 0 0 1-4.716-3.333a1 1 0 1 0-1.885.666A7 7 0 0 0 22 37h1v3a1 1 0 1 0 2 0v-3h1a7 7 0 1 0 0-14h-1V13h1a5 5 0 0 1 4.716 3.333a1 1 0 1 0 1.885-.666A7 7 0 0 0 26 11h-1V8a1 1 0 0 0-1-1m-3 1a3 3 0 1 1 6 0v1.055A9.01 9.01 0 0 1 34.487 15a3 3 0 1 1-5.657 2A3 3 0 0 0 27 15.17v5.885a9.001 9.001 0 0 1 0 17.89V40a3 3 0 1 1-6 0v-1.055A9.01 9.01 0 0 1 13.513 33a3 3 0 1 1 5.657-2A3 3 0 0 0 21 32.83v-5.885a9.001 9.001 0 0 1 0-17.89zm-4 10a5 5 0 0 1 5-5h1v10h-1a5 5 0 0 1-5-5m4-2.83a3.001 3.001 0 0 0 0 5.66zM25 25h1a5 5 0 0 1 0 10h-1zm2 2.17v5.66a3.001 3.001 0 0 0 0-5.66"
-                                                clip-rule="evenodd"></path>
-                                        </g>
-                                    </svg>
+                                    <i data-feather="shopping-bag" class="align-middle center-icon text-success fs-20"></i>
                                 </div>
-                                <h6 class="mb-0 fw-normal fs-16">Earnings</h6>
+                                <h6 class="mb-0 fw-normal fs-16">Total Data Brand (BULAN)</h6>
                             </div>
-                            <h4 class="my-2 text-dark">$545.69</h4>
+                            <h4 class="my-2 text-dark">{{ $count['brand'] }}</h4>
                             <div class="progress w-75" style="height:6px">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 65%"
-                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                <?php
+                                $percentase = ($count['brand'] / 100) * 100;
+                                ?>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $percentase }}%"
+                                    aria-valuenow="{{ $percentase }}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -44,24 +68,18 @@
                             <div class="ms-md-3">
                                 <div class="d-flex gap-2 align-items-center">
                                     <div class="bg-primary-subtle rounded-2 p-1 me-2 border border-dashed border-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewbox="0 0 24 24">
-                                            <g fill="#108dff" fill-rule="evenodd" clip-rule="evenodd">
-                                                <path
-                                                    d="M17.206 1.856c-1.063-.419-2.09-.135-2.817.512c-.71.63-1.139 1.602-1.139 2.632v4c0 .967.784 1.75 1.75 1.75h4c1.03 0 2.002-.43 2.633-1.139c.646-.727.93-1.754.51-2.817a8.776 8.776 0 0 0-4.937-4.938M14.75 9V5c0-.627.265-1.182.636-1.512c.353-.314.791-.425 1.27-.236a7.276 7.276 0 0 1 4.092 4.092c.189.479.078.917-.236 1.27c-.33.371-.885.636-1.512.636h-4a.25.25 0 0 1-.25-.25">
-                                                </path>
-                                                <path
-                                                    d="M10.995 2.87c-.61-.396-1.2-.51-1.85-.396c-.55.096-1.14.36-1.767.641l-.067.03A10.25 10.25 0 1 0 20.855 16.69l.03-.068c.281-.627.545-1.217.641-1.768c.113-.648 0-1.239-.396-1.85c-.426-.657-1.01-.979-1.724-1.125c-.634-.13-1.426-.13-2.334-.129H15.5c-.964 0-1.612-.002-2.095-.066c-.461-.063-.659-.17-.789-.3c-.13-.13-.237-.328-.3-.79c-.064-.482-.066-1.13-.066-2.094V6.928c0-.908 0-1.7-.13-2.334c-.145-.714-.467-1.298-1.125-1.724M7.924 4.514c.719-.322 1.136-.503 1.48-.563c.265-.046.474-.018.776.178c.254.165.389.361.471.765c.095.467.099 1.104.099 2.106v1.552c0 .898 0 1.648.08 2.242c.084.628.27 1.195.726 1.65c.455.456 1.022.642 1.65.726c.594.08 1.344.08 2.242.08H17c1.002 0 1.639.004 2.106.099c.404.082.6.217.765.471c.196.302.224.511.178.777c-.06.343-.241.76-.563 1.48a8.755 8.755 0 0 1-4.638 4.507a8.75 8.75 0 0 1-6.924-16.07">
-                                                </path>
-                                            </g>
-                                        </svg>
+                                        <i data-feather="pie-chart" class="align-middle center-icon text-primary fs-20"></i>
                                     </div>
-                                    <h6 class="mb-0 fw-normal fs-16">Profit</h6>
+                                    <h6 class="mb-0 fw-normal fs-16">Total Data Campaign (BULAN)</h6>
                                 </div>
-                                <h4 class="my-2 text-dark">$256.34</h4>
+                                <h4 class="my-2 text-dark">{{ $count['campaign'] }}</h4>
                                 <div class="progress w-75" style="height:6px">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 50%"
-                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <?php
+                                    $percentase = ($count['campaign'] / 100) * 100;
+                                    ?>
+                                    <div class="progress-bar bg-primary" role="progressbar"
+                                        style="width: {{ $percentase }}%" aria-valuenow="{{ $percentase }}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -73,24 +91,19 @@
                                 <div class="d-flex gap-2 align-items-center">
                                     <div
                                         class="bg-secondary-subtle rounded-2 p-1 me-2 border border-dashed border-secondary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewbox="0 0 15 15">
-                                            <g fill="none" stroke="#963b68" stroke-linejoin="round">
-                                                <path
-                                                    d="M.5 12.5h4l1-4h1.795a4.625 4.625 0 0 0 4.33-3.001C12.532 3.08 10.745.5 8.161.5H3.5z">
-                                                </path>
-                                                <path
-                                                    d="M4 14.5h4L9 11h1.577c1.477 0 2.82-.859 3.438-2.2c.927-2.008-.54-4.3-2.75-4.3H6.5z">
-                                                </path>
-                                            </g>
-                                        </svg>
+                                        <i data-feather="trending-up"
+                                            class="align-middle center-icon text-secondary fs-20"></i>
                                     </div>
-                                    <h6 class="mb-0 fw-normal fs-16">Expense</h6>
+                                    <h6 class="mb-0 fw-normal fs-16">Total Data Perbandingan (BULAN)</h6>
                                 </div>
-                                <h4 class="my-2 text-dark">$74.19</h4>
+                                <h4 class="my-2 text-dark">{{ $count['perbandingan'] }}</h4>
                                 <div class="progress w-75" style="height:6px">
-                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 65%"
-                                        aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <?php
+                                    $percentase = ($count['perbandingan'] / 100) * 100;
+                                    ?>
+                                    <div class="progress-bar bg-secondary" role="progressbar"
+                                        style="width: {{ $percentase }}%" aria-valuenow="{{ $percentase }}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -98,18 +111,284 @@
                 </div>
             </div>
 
-
+            {{-- brand --}}
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h5 class="card-title mb-0">Earning Reports</h5>
+                        <h5 class="card-title mb-0">Brand</h5>
                     </div>
                 </div>
 
                 <div class="card-body">
-                    <div id="monthly-sales" class="apex-charts"></div>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Brand</th>
+                                <th>Dibuat Pada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($brands as $brand)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $brand->nama }}</td>
+                                    <td>{{ formatTanggal($brand->created_at->format('d-m-Y')) }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="text-center">Data Kosong</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            {{-- campaign --}}
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h5 class="card-title mb-0">Campaign</h5>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tgl Buat</th>
+                                    <th>Jenis Campaign</th>
+                                    <th>Nama Brand</th>
+                                    <th>Platform</th>
+                                    <th>Cost</th>
+                                    <th>CPM</th>
+                                    <th>Impression</th>
+                                    <th>Klik</th>
+                                    <th>CPC</th>
+                                    <th>Page View</th>
+                                    <th>CPV</th>
+                                    <th>Initiate</th>
+                                    <th>Cost/Initiate</th>
+                                    <th>Result</th>
+                                    <th>CPR</th>
+                                    <th>Order</th>
+                                    <th>Cost/Order</th>
+                                    <th>Gross Revenue</th>
+                                    <th>ROI</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($campaigns as $campaign)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ formatTanggal($campaign->tanggal) }}</td>
+                                        <td>{{ strtoupper($campaign->jenis_campaign ?? '-') }}</td>
+                                        <td>{{ strtoupper($campaign->Brand->nama) }}</td>
+                                        <td>{{ strtoupper($campaign->platform) }}</td>
+                                        <td>{{ formatAngka($campaign->cost ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->cpm ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->impression ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->klik ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->cpc ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->page_view ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->cpv ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->initiate ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->cost_initiate ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->result ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->cpr ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->order ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->cost_per_order ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->gross_revenue ?? 0) }}</td>
+                                        <td>{{ formatAngka($campaign->roi ?? 0) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a href="{{ url('/campaign/' . $campaign->id . '/edit') }}"
+                                                    class="btn btn-sm btn-warning">
+                                                    Edit
+                                                </a>
+                                                <button class="btn btn-sm btn-danger deleteCampaignBtn"
+                                                    data-id="{{ $campaign->id }}">
+                                                    Hapus
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="21" class="text-center">Data Kosong</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            {{-- perbandingan --}}
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h5 class="card-title mb-0">Perbandingan</h5>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Bukti</th>
+                                    <th>Nama Brand</th>
+                                    <th>Tanggal Awal</th>
+                                    <th>Tanggal Akhir</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($perbandingans as $perbandingan)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if ($perbandingan->files !== null)
+                                                <a href="{{ asset($perbandingan->files) }}" target="_blank">
+                                                    {{ $perbandingan->Brand->nama }}
+                                                </a>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>{{ strtoupper($perbandingan->Brand->nama) }}</td>
+                                        <td>{{ formatTanggal($perbandingan->tanggal_awal) }}</td>
+                                        <td>{{ formatTanggal($perbandingan->tanggal_akhir) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-start gap-1">
+
+                                                <a href="{{ url('/perbandingan/' . $perbandingan->id . '/detail') }}"
+                                                    class="btn btn-sm btn-primary">Detail</a>
+
+                                                <a href="{{ url('/perbandingan/' . $perbandingan->id . '/cetak') }}"
+                                                    class="btn btn-sm btn-success">Cetak</a>
+
+                                                <a href="javascript:void(0)" class="btn btn-sm btn-warning"
+                                                    onclick="shareLink('Perbandingan', 'Bagikan link perbandingan', '{{ url('/perbandingan/' . $perbandingan->id . '/share') }}')">
+                                                    <i data-feather="share-2" class="align-middle"></i>
+                                                </a>
+
+                                                <button class="btn btn-sm btn-danger deletePerbandinganBtn"
+                                                    data-id="{{ $perbandingan->id }}">Hapus</button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">Data Kosong</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div> <!-- end row -->
+@endsection
+
+@section('js')
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Delete Campaign
+            $(document).on('click', '.deleteCampaignBtn', function() {
+                const id = $(this).data('id');
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Hapus Campaign?',
+                    text: 'Data yang dihapus tidak bisa dikembalikan!',
+                    showCancelButton: true,
+                    confirmButtonText: 'Hapus',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/campaign/${id}`,
+                            type: 'DELETE',
+                            data: {
+                                _token: $('input[name="_token"]').val()
+                            },
+                            success: function(data) {
+                                if (data.success) {
+                                    Swal.fire('Terhapus!', data.message, 'success');
+                                    window.location.reload();
+                                } else {
+                                    Swal.fire('Gagal!', data.message, 'error');
+                                }
+                            },
+                            error: function() {
+                                Swal.fire('Error!', 'Terjadi kesalahan.', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Delete Perbandingan
+            $(document).on('click', '.deletePerbandinganBtn', function() {
+                const id = $(this).data('id');
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Hapus Perbandingan?',
+                    text: 'Data yang dihapus tidak bisa dikembalikan!',
+                    showCancelButton: true,
+                    confirmButtonText: 'Hapus',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/perbandingan/${id}`,
+                            type: 'DELETE',
+                            data: {
+                                _token: $('input[name="_token"]').val()
+                            },
+                            success: function(data) {
+                                if (data.success) {
+                                    Swal.fire('Terhapus!', data.message, 'success');
+                                    window.location.reload();
+                                } else {
+                                    Swal.fire('Gagal!', data.message, 'error');
+                                }
+                            },
+                            error: function() {
+                                Swal.fire('Error!', 'Terjadi kesalahan.', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+
+        function shareLink(title, text, url) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url
+                });
+            } else {
+                alert("Share tidak didukung di perangkat ini");
+            }
+        }
+    </script>
 @endsection

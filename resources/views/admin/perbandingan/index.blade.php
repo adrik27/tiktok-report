@@ -49,7 +49,7 @@
                         {{-- modal --}}
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="add-brand-label">Bandingkan Campaign</h5>
@@ -60,7 +60,6 @@
                                         enctype="multipart/form-data">
                                         <div class="modal-body">
                                             @csrf
-                                            {{-- <input type="hidden" id="brand-id" name="id"> --}}
 
                                             <div class="mb-3">
                                                 <label class="form-label">Brand</label>
@@ -73,27 +72,6 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            {{-- <div class="mb-3">
-                                                <label class="form-label">Platform</label>
-                                                <select name="platform" id="platform" class="form-control platform-select"
-                                                    required>
-                                                    <option value="tiktok">
-                                                        Tiktok
-                                                    </option>
-                                                    <option value="gmvmax">
-                                                        GMV MAX
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Jenis Campaign</label>
-                                                <select name="jenis_campaign" id="jenis_campaign"
-                                                    class="form-control jenis-campaign-select" required>
-                                                    <option value="reach">Reach</option>
-                                                    <option value="initiate">Initiate</option>
-                                                    <option value="videoview">Video View</option>
-                                                </select>
-                                            </div> --}}
                                             <div class="mb-3">
                                                 <label for="tanggal-awal" class="form-label">Tanggal Awal</label>
                                                 <input type="date" class="form-control" id="tanggal-awal"
@@ -168,8 +146,41 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <script>
         $(document).ready(function() {
+            const settings = {
+                plugins: 'lists help',
+                toolbar: 'undo redo | blocks | bold italic | bullist numlist',
+                ui_mode: 'split',
+                min_height: 500
+            };
+
+            tinymce.init({
+                ...settings,
+                selector: '#summary, #planning',
+                menubar: true,
+                mobile: {
+                    menubar: true,
+                    toolbar: 'undo redo | bold italic | bullist numlist'
+                }
+            });
+
+            tinymce.init({
+                ...settings,
+                inline: true,
+                selector: '.tinymce-heading',
+                inline: true,
+                toolbar: 'undo redo | bold italic underline '
+            });
+
+            tinymce.init({
+                ...settings,
+                selector: '.tinymce-body',
+                inline: true
+            });
+
             $('#toggleSidebar').on('click', function() {
                 setTimeout(function() {
                     table.columns.adjust().draw();
@@ -279,5 +290,17 @@
                 });
             });
         });
+
+        function shareLink(title, text, url) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url
+                });
+            } else {
+                alert("Share tidak didukung di perangkat ini");
+            }
+        }
     </script>
 @endsection

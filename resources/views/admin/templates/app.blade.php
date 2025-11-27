@@ -73,7 +73,7 @@
                             <script>
                                 document.write(new Date().getFullYear())
                             </script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a
-                                href="www.muriatech.com" class="text-reset fw-semibold">MTech.com</a>
+                                href="https://landinginovra.vercel.app/" class="text-reset fw-semibold">MTech.com</a>
                         </div>
                     </div>
                 </div>
@@ -96,6 +96,8 @@
     <script src="{{ url('templates/assets/libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
     <script src="{{ url('templates/assets/libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
     <script src="{{ url('templates/assets/libs/feather-icons/feather.min.js') }}"></script>
+    <script src="https://cdn.tiny.cloud/1/ik9ishezmwr2futc43kkp753xtypyd7iswc3eomaosi2ztmn/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
 
     {{-- <!-- Apexcharts JS -->
     <script src="{{ url('templates/assets/libs/apexcharts/apexcharts.min.js') }}"></script> --}}

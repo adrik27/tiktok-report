@@ -39,24 +39,30 @@ class YajraPerbandinganController
                     return date('d M Y', strtotime($row->tanggal_akhir));
                 })
                 ->addColumn('action', function ($row) {
-                    return '
-                        <div class="d-flex justify-content-center gap-2">
-                                <a href="' . url('/perbandingan/' . $row->id . '/detail') . '" 
-                                class="btn btn-sm btn-info">
-                                    Detail
-                                </a>
-                                <a href="' . url('/perbandingan/' . $row->id . '/cetak') . '" 
-                                class="btn btn-sm btn-success">
-                                    Cetak
-                                </a>
-                                <button class="btn btn-sm btn-danger deletePerbandinganBtn" 
-                                data-id="' . $row->id . '">
-                                    Hapus
-                                </button>
-                            </div>
-                        ';
-                })
 
+                    $shareUrl = url('/perbandingan/' . $row->id . '/share');
+
+                    return '
+                        <div class="d-flex justify-content-start gap-1">
+
+                            <a href="' . url('/perbandingan/' . $row->id . '/detail') . '" 
+                                class="btn btn-sm btn-primary">Detail</a>
+
+                            <a href="' . url('/perbandingan/' . $row->id . '/cetak') . '" 
+                                class="btn btn-sm btn-success">Cetak</a>
+
+                            <a href="javascript:void(0)" 
+                                class="btn btn-sm btn-warning"
+                                onclick="shareLink(\'Perbandingan\', \'Bagikan link perbandingan\', \'' . $shareUrl . '\')">
+                                Share
+                            </a>
+
+                            <button class="btn btn-sm btn-danger deletePerbandinganBtn" 
+                                data-id="' . $row->id . '">Hapus</button>
+
+                        </div>
+                    ';
+                })
 
                 ->rawColumns(['action', 'brand', 'tanggal_awal', 'tanggal_akhir', 'files'])
                 ->make(true);
@@ -300,6 +306,7 @@ class YajraPerbandinganController
                 ->make(true);
         }
     }
+
     public function tampil_data_detail_gmv(Request $post)
     {
         if ($post->ajax()) {

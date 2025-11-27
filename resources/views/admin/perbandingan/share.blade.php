@@ -1,12 +1,8 @@
 <style>
-    @page {
-        size: A4 landscape;
-        margin: 20px;
-    }
-
     body {
         font-family: DejaVu Sans, sans-serif;
         font-size: 12px;
+        margin: 50px;
     }
 
     .container {
@@ -69,9 +65,7 @@
         <div class="row">
             <div class="col-12">
                 <center>
-                    {{-- <h3 class="section-title">BUKTI</h3> --}}
-                    <img src="{{ public_path($perbandingan->files) }}" class="img-fluid"
-                        alt="{{ $perbandingan->Brand->nama }}">
+                    <img src="{{ url($perbandingan->files) }}" class="img-fluid" alt="{{ $perbandingan->Brand->nama }}">
                 </center>
             </div>
         </div>

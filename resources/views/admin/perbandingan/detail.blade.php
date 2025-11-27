@@ -105,6 +105,15 @@
                                     <i data-feather="printer" class="align-middle"></i>
                                 </a>
                             </div>
+
+                            {{-- share --}}
+                            <div class="me-2">
+                                <a href="javascript:void(0)" class="btn btn-sm btn-warning"
+                                    onclick="shareLink('Perbandingan', 'Bagikan link perbandingan', '{{ url('/perbandingan/' . $RiwayatPerbandingan[0]->Perbandingan->id . '/share') }}')">
+                                    <i data-feather="share-2" class="align-middle"></i>
+                                </a>
+
+                            </div>
                         </div>
 
                         <div class="">
@@ -321,6 +330,44 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
+            const settings = {
+                plugins: 'lists help',
+                toolbar: 'undo redo | blocks | bold italic | bullist numlist',
+                ui_mode: 'split',
+                min_height: 500
+            };
+
+            tinymce.init({
+                ...settings,
+                selector: '#summary, #planning',
+                menubar: true,
+                mobile: {
+                    menubar: true,
+                    toolbar: 'undo redo | bold italic | bullist numlist'
+                }
+            });
+
+            tinymce.init({
+                ...settings,
+                inline: true,
+                selector: '.tinymce-heading',
+                inline: true,
+                toolbar: 'undo redo | bold italic underline '
+            });
+
+            tinymce.init({
+                ...settings,
+                selector: '.tinymce-body',
+                inline: true
+            });
+
+            $('#toggleSidebar').on('click', function() {
+                setTimeout(function() {
+                    table.columns.adjust().draw();
+                }, 300);
+            });
+
+
             $('#InitiateTable').DataTable({
                 orderable: false,
                 searching: true,
@@ -650,5 +697,17 @@
                 return (num >= 0 ? '+' : '') + num.toFixed(1) + '%';
             }
         });
+
+        function shareLink(title, text, url) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url
+                });
+            } else {
+                alert("Share tidak didukung di perangkat ini");
+            }
+        }
     </script>
 @endsection

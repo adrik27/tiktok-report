@@ -286,4 +286,54 @@ class PerbandinganController
         $name = time() . '_' . date('Y-m-d') . '_' . strtolower($perbandingan->Brand->nama) . '_perbandingan.pdf';
         return $pdf->stream($name);
     }
+
+    public function share($id)
+    {
+        $perbandingan = Perbandingan::where('id', $id)->first();
+
+        $initiate    = PerbandinganHelper::getDetail($id, 'initiate', 'tiktok');
+        $reach       = PerbandinganHelper::getDetail($id, 'reach', 'tiktok');
+        $videoview   = PerbandinganHelper::getDetail($id, 'videoview', 'tiktok');
+        $gmv         = PerbandinganHelper::getDetail($id, null, 'gmv');
+
+        // ===== HITUNG FOOTER PERUBAHAN =====
+        $footer = [
+            'initiate'  => PerbandinganHelper::hitungPerubahanFooter($initiate, 'initiate', 'tiktok'),
+            'reach'     => PerbandinganHelper::hitungPerubahanFooter($reach, 'reach', 'tiktok'),
+            'videoview' => PerbandinganHelper::hitungPerubahanFooter($videoview, 'videoview', 'tiktok'),
+            'gmv'       => PerbandinganHelper::hitungPerubahanFooter($gmv, null, 'gmvmax'),
+        ];
+
+        $count = [
+            'initiate'  => $initiate->count(),
+            'reach'     => $reach->count(),
+            'videoview' => $videoview->count(),
+            'gmvmax'    => $gmv->count(),
+        ];
+
+        return view('admin.perbandingan.share', [
+            'title'        => 'Share Perbandingan',
+            'perbandingan' => $perbandingan,
+            'initiate'     => $initiate,
+            'reach'        => $reach,
+            'videoview'    => $videoview,
+            'gmv'          => $gmv,
+            'data_count'   => $count,
+            'footer'       => $footer,
+        ]);
+
+        // $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.perbandingan.cetak', [
+        //     'title'        => 'Cetak Perbandingan',
+        //     'perbandingan' => $perbandingan,
+        //     'initiate'     => $initiate,
+        //     'reach'        => $reach,
+        //     'videoview'    => $videoview,
+        //     'gmv'          => $gmv,
+        //     'data_count'   => $count,
+        //     'footer'       => $footer,
+        // ])->setPaper('A4', 'landscape');
+
+        // $name = time() . '_' . date('Y-m-d') . '_' . strtolower($perbandingan->Brand->nama) . '_perbandingan.pdf';
+        // return $pdf->stream($name);
+    }
 }
